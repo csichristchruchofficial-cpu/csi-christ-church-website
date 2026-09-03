@@ -1,0 +1,263 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+  }
+  :focus-visible {
+    outline: 2px solid #f59e0b;
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+  
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-gold-light via-gold to-gold-dark px-7 py-3 text-sm font-bold text-navy-950 shadow-md shadow-gold/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-glow-gold focus-visible:outline-gold;
+  }
+
+  .btn-crimson {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-crimson-light to-crimson px-7 py-3 text-sm font-bold text-white shadow-md shadow-crimson/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-glow-crimson focus-visible:outline-crimson;
+  }
+
+  .btn-royal {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-royal-light to-royal px-7 py-3 text-sm font-bold text-white shadow-md shadow-royal/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-glow-royal focus-visible:outline-royal;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/60 bg-white/10 backdrop-blur-md px-7 py-3 text-sm font-bold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-white hover:text-navy-900 hover:border-white shadow-sm;
+  }
+
+  .badge-vibrant {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-bold tracking-wide shadow-sm;
+  }
+}
+
+/* ============================================================== */
+/* 1. Universal Elegant Button Micro-Interactions                  */
+/* ============================================================== */
+button,
+[role="button"],
+.btn-primary,
+.btn-crimson,
+.btn-royal,
+.btn-outline,
+a.btn-primary,
+a.btn-crimson,
+a.btn-royal,
+a.btn-outline {
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+              filter 0.2s ease,
+              background 0.2s ease;
+}
+
+button:hover,
+[role="button"]:hover,
+.btn-primary:hover,
+.btn-crimson:hover,
+.btn-royal:hover,
+.btn-outline:hover,
+a.btn-primary:hover,
+a.btn-crimson:hover,
+a.btn-royal:hover,
+a.btn-outline:hover {
+  transform: translateY(-2px);
+}
+
+button:active,
+[role="button"]:active,
+.btn-primary:active,
+.btn-crimson:active,
+.btn-royal:active,
+.btn-outline:active,
+a.btn-primary:active,
+a.btn-crimson:active,
+a.btn-royal:active,
+a.btn-outline:active {
+  transform: scale(0.97) translateY(0.5px) !important;
+  filter: brightness(0.96);
+  transition-duration: 0.08s;
+}
+
+/* Gentle click recovery */
+.btn-elegant-press {
+  animation: elegant-press 0.32s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes elegant-press {
+  0% {
+    transform: scale(0.96) translateY(0.5px);
+  }
+  50% {
+    transform: scale(1.01) translateY(-0.5px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Soft ambient light sheen */
+.btn-elegant-sheen {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.12) 45%, rgba(255, 255, 255, 0) 70%);
+  animation: elegant-sheen-fade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes elegant-sheen-fade {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+/* ============================================================== */
+/* 2. Unique Scroll-Reveal Animations                             */
+/* ============================================================== */
+.scroll-reveal-item {
+  opacity: 0;
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal-up {
+  transform: translateY(28px);
+}
+
+.scroll-reveal-down {
+  transform: translateY(-28px);
+}
+
+.scroll-reveal-left {
+  transform: translateX(-28px);
+}
+
+.scroll-reveal-right {
+  transform: translateX(28px);
+}
+
+.scroll-reveal-pop {
+  transform: scale(0.94) translateY(18px);
+}
+
+.scroll-revealed {
+  opacity: 1 !important;
+  transform: translateY(0) translateX(0) scale(1) !important;
+}
+
+/* ============================================================== */
+/* 3. Unique Entry & Float Animations                             */
+/* ============================================================== */
+@keyframes celestial-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-float-gentle {
+  animation: celestial-float 4.5s ease-in-out infinite;
+}
+
+@keyframes entry-fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-entry-fade-up {
+  animation: entry-fade-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ============================================================== */
+/* 4. Unique Pop-Up Modal Animations                              */
+/* ============================================================== */
+@keyframes popup-spring {
+  0% {
+    opacity: 0;
+    transform: scale(0.88) translateY(24px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.02) translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-popup-spring {
+  animation: popup-spring 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes overlay-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-overlay-fade-in {
+  animation: overlay-fade-in 0.25s ease-out forwards;
+}
+
+/* Subtle breathing glow */
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.88;
+    transform: scale(1.03);
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s ease-in-out infinite;
+}
+
+/* Elegant card transition */
+article {
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+              border-color 0.25s ease;
+}
