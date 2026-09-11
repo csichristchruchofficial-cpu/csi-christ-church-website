@@ -8,7 +8,7 @@ import { Cross, Heart, BookOpen, UserCheck, MapPin, Phone, Mail, History, Users 
 
 export const metadata: Metadata = {
   title: "எங்களைப் பற்றி & வரலாறு",
-  description: "CSI கிறிஸ்து ஆலயம், தெற்கு கல்லிடைக்குறிச்சி - எங்கள் நோக்கம், தலைமைப் போதகர்கள், சபை ஊழியர் மற்றும் திருச்சபை வரலாறு.",
+  description: "CSI கிறிஸ்து ஆலயம், கல்லிடைக்குறிச்சி - எங்கள் நோக்கம், தலைமைப் போதகர்கள், சபை ஊழியர் மற்றும் திருச்சபை வரலாறு.",
 };
 
 export default function AboutPage() {
@@ -17,7 +17,7 @@ export default function AboutPage() {
       <div className="container-page">
         <SectionHeading
           title="எங்களைப் பற்றி"
-          subtitle="CSI கிறிஸ்து ஆலயம் — தெற்கு கல்லிடைக்குறிச்சியில் தேவனுடைய கிருபையை சாட்சியிடும் திருச்சபை"
+          subtitle="CSI கிறிஸ்து ஆலயம் — கல்லிடைக்குறிச்சியில் தேவனுடைய கிருபையை சாட்சியிடும் திருச்சபை"
         />
 
         {/* Hero Banner Grid */}
@@ -34,7 +34,7 @@ export default function AboutPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-transparent to-transparent" />
               <div className="absolute bottom-6 left-6 right-6 text-white">
                 <span className="badge-vibrant bg-crimson text-white">
-                  தெற்கு கல்லிடைக்குறிச்சி
+                  கல்லிடைக்குறிச்சி
                 </span>
                 <h3 className="mt-2 text-xl font-bold text-white">
                   {churchInfo.name} ({churchInfo.nameEnglish})
@@ -48,7 +48,7 @@ export default function AboutPage() {
               தேவனுடைய வார்த்தையில் வேரூன்றி, அன்பில் பெருகி வாழும் குடும்பம்
             </h3>
             <p className="text-base">
-              தெற்கு கல்லிடைக்குறிச்சியில் அமைந்துள்ள CSI கிறிஸ்து ஆலயம், தேவனை ஆராதிக்கவும், விசுவாசத்தில் வளரவும், சமுதாயத்தில் கிறிஸ்துவின் அன்பைப் பிரதிபலிக்கவும் அர்ப்பணிக்கப்பட்ட ஒரு ஆவிக்குரிய குடும்பமாகும்.
+              கல்லிடைக்குறிச்சியில் அமைந்துள்ள CSI கிறிஸ்து ஆலயம், தேவனை ஆராதிக்கவும், விசுவாசத்தில் வளரவும், சமுதாயத்தில் கிறிஸ்துவின் அன்பைப் பிரதிபலிக்கவும் அர்ப்பணிக்கப்பட்ட ஒரு ஆவிக்குரிய குடும்பமாகும்.
             </p>
             <p className="text-base text-slate-600">
               ஒவ்வொரு வாரமும் தேவ பிரசன்னம் நிறைந்த ஆராதனைகள், வேத வசன போதனைகள், பாடகர் குழுவின் துதிப்பாடல்கள் மற்றும் ஆழமான ஜெப ஐக்கியங்கள் மூலம் விசுவாசிகள் உற்சாகப்படுத்தப்படுகின்றனர்.
@@ -203,7 +203,7 @@ export default function AboutPage() {
             </h3>
             <div className="mt-3 h-1.5 w-20 mx-auto rounded-full bg-gradient-to-r from-crimson via-gold to-royal" />
             <p className="mt-4 text-base text-slate-600 max-w-xl mx-auto leading-relaxed">
-              &ldquo;இதுவரைக்கும் கர்த்தர் எங்களுக்கு உதவி செய்தார்&rdquo; — தெற்கு கல்லிடைக்குறிச்சியில் ஆரம்பம் முதல் இன்று வரை கர்த்தர் வழிநடத்தி வந்த விசுவாச மைல்கற்கள்.
+              &ldquo;இதுவரைக்கும் கர்த்தர் எங்களுக்கு உதவி செய்தார்&rdquo; — கல்லிடைக்குறிச்சியில் ஆரம்பம் முதல் இன்று வரை கர்த்தர் வழிநடத்தி வந்த விசுவாச மைல்கற்கள்.
             </p>
           </div>
 
@@ -224,7 +224,7 @@ export default function AboutPage() {
                       {item.year && !item.year.includes("[") ? item.year : `மைல்கல் #${i + 1}`}
                     </span>
                     <h4 className="mt-2 text-lg font-bold text-navy-900">{item.event}</h4>
-                    <p className="mt-1 text-xs text-slate-500">தெற்கு கல்லிடைக்குறிச்சி திருச்சபையின் ஆசீர்வதிக்கப்பட்ட தருணம்.</p>
+                    <p className="mt-1 text-xs text-slate-500">கல்லிடைக்குறிச்சி திருச்சபையின் ஆசீர்வதிக்கப்பட்ட தருணம்.</p>
                   </div>
                 </li>
               ))}

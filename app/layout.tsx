@@ -23,17 +23,17 @@ const notoSerifTamil = Noto_Serif_Tamil({
 export const metadata: Metadata = {
   metadataBase: new URL("https://csichristchurchkallidaikurichi.com"),
   title: {
-    default: `${churchInfo.name} (${churchInfo.nameEnglish}) | தெற்கு கல்லிடைக்குறிச்சி`,
+    default: `${churchInfo.name} (${churchInfo.nameEnglish}) | கல்லிடைக்குறிச்சி`,
     template: `%s | ${churchInfo.name}`,
   },
-  description: `${churchInfo.name} — தெற்கு கல்லிடைக்குறிச்சி திருச்சபை. ஆராதனை நேரங்கள், பிரசங்கங்கள், நிகழ்வுகள், ஊழியங்கள் மற்றும் ஜெப உதவி.`,
+  description: `${churchInfo.name} — கல்லிடைக்குறிச்சி திருச்சபை. ஆராதனை நேரங்கள், பிரசங்கங்கள், நிகழ்வுகள், ஊழியங்கள் மற்றும் ஜெப உதவி.`,
   icons: {
     icon: churchInfo.logo,
     apple: churchInfo.logo,
   },
   openGraph: {
     title: `${churchInfo.name} - ${churchInfo.nameEnglish}`,
-    description: `${churchInfo.tagline} • தெற்கு கல்லிடைக்குறிச்சி`,
+    description: `${churchInfo.tagline} • கல்லிடைக்குறிச்சி`,
     locale: "ta_IN",
     type: "website",
     images: [

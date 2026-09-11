@@ -10,7 +10,7 @@ export const churchInfo = {
   nameEnglish: "CSI Christ Church",
   tagline: "ஆராதிப்போம் • வளர்வோம் • சேவை செய்வோம்",
   logo: "/images/church-logo.png", // put your logo file here
-  address: "Therku Kallidaikurichi, Tamil Nadu 627416",
+  address: "Kallidaikurichi, Tamil Nadu 627416",
   phone: "+91 9629212785",
   email: "csichristchruchofficial@gmail.com",
   whatsapp: "+91 7010993776",
@@ -300,8 +300,8 @@ export const subChurches = [
   {
     id: "sub-1",
     name: "கிளை ஆலயம் 1 (Sub Church 1)",
-    location: "தெற்கு கல்லிடைக்குறிச்சி வட்டம்",
-    address: "தெற்கு கல்லிடைக்குறிச்சி திருச்சபை வட்டம், திருநெல்வேலி",
+    location: "கல்லிடைக்குறிச்சி வட்டம்",
+    address: "கல்லிடைக்குறிச்சி திருச்சபை வட்டம், திருநெல்வேலி",
     time: "ஞாயிறு மாலை 05:00 மணி",
     pastor: "Rev. P. Muthuraj",
     image: "/images/sub-church-1.jpg",
@@ -310,8 +310,8 @@ export const subChurches = [
   {
     id: "sub-2",
     name: "கிளை ஆலயம் 2 (Sub Church 2)",
-    location: "தெற்கு கல்லிடைக்குறிச்சி வட்டம்",
-    address: "தெற்கு கல்லிடைக்குறிச்சி திருச்சபை வட்டம், திருநெல்வேலி",
+    location: "கல்லிடைக்குறிச்சி வட்டம்",
+    address: "கல்லிடைக்குறிச்சி திருச்சபை வட்டம், திருநெல்வேலி",
     time: "ஞாயிறு மாலை 06:30 மணி",
     pastor: "Rev. P. Muthuraj",
     image: "/images/sub-church-2.jpg",
@@ -320,8 +320,8 @@ export const subChurches = [
   {
     id: "sub-3",
     name: "கிளை ஆலயம் 3 (Sub Church 3)",
-    location: "தெற்கு கல்லிடைக்குறிச்சி வட்டம்",
-    address: "தெற்கு கல்லிடைக்குறிச்சி திருச்சபை வட்டம், திருநெல்வேலி",
+    location: "கல்லிடைக்குறிச்சி வட்டம்",
+    address: "கல்லிடைக்குறிச்சி திருச்சபை வட்டம், திருநெல்வேலி",
     time: "ஞாயிறு மாலை 05:00 மணி",
     pastor: "Rev. P. Muthuraj",
     image: "/images/sub-church-3.jpg",
@@ -330,8 +330,8 @@ export const subChurches = [
   {
     id: "sub-4",
     name: "கிளை ஆலயம் 4 (Sub Church 4)",
-    location: "தெற்கு கல்லிடைக்குறிச்சி வட்டம்",
-    address: "தெற்கு கல்லிடைக்குறிச்சி திருச்சபை வட்டம், திருநெல்வேலி",
+    location: "கல்லிடைக்குறிச்சி வட்டம்",
+    address: "கல்லிடைக்குறிச்சி திருச்சபை வட்டம், திருநெல்வேலி",
     time: "ஞாயிறு மாலை 06:30 மணி",
     pastor: "Rev. P. Muthuraj",
     image: "/images/sub-church-4.jpg",

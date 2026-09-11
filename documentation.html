@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<title>CSI Christ Church Kallidaikurichi - Website Documentation & Maintenance Manual</title>
+<style>
+  @page {
+    size: A4;
+    margin: 16mm 14mm 16mm 14mm;
+    @bottom-right {
+      content: counter(page);
+    }
+  }
+
+  *, *:before, *:after {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    line-height: 1.55;
+    font-size: 10.5pt;
+    background: #ffffff;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, h2, h3, h4 {
+    color: #0f172a;
+    font-weight: 700;
+    margin-top: 1.2em;
+    margin-bottom: 0.4em;
+    page-break-after: avoid;
+  }
+
+  h1 {
+    font-size: 20pt;
+    color: #0f172a;
+    border-bottom: 3px solid #d97706;
+    padding-bottom: 8px;
+    margin-top: 0;
+  }
+
+  h2 {
+    font-size: 14pt;
+    color: #1e3a8a;
+    border-left: 4px solid #b91c1c;
+    padding-left: 10px;
+    margin-top: 1.5em;
+    page-break-before: auto;
+  }
+
+  h3 {
+    font-size: 11.5pt;
+    color: #0369a1;
+  }
+
+  p {
+    margin: 0.5em 0;
+  }
+
+  ul, ol {
+    margin: 0.5em 0 0.8em 1.5em;
+    padding: 0;
+  }
+
+  li {
+    margin-bottom: 0.3em;
+  }
+
+  code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    background-color: #f1f5f9;
+    color: #b91c1c;
+    padding: 1.5px 4.5px;
+    border-radius: 4px;
+    font-size: 9pt;
+    border: 1px solid #e2e8f0;
+  }
+
+  pre {
+    font-family: 'Consolas', 'Courier New', monospace;
+    background-color: #0f172a;
+    color: #f8fafc;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 8.5pt;
+    line-height: 1.45;
+    overflow-x: auto;
+    margin: 0.6em 0 1em 0;
+    page-break-inside: avoid;
+  }
+
+  pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    border: none;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.8em 0 1.2em 0;
+    font-size: 9pt;
+    page-break-inside: avoid;
+  }
+
+  th, td {
+    border: 1px solid #cbd5e1;
+    padding: 7px 10px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    background-color: #0f172a;
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f8fafc;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 9999px;
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .badge-gold { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+  .badge-blue { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+  .badge-red { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+  .callout {
+    border-left: 4px solid #d97706;
+    background-color: #fffbeb;
+    padding: 10px 14px;
+    border-radius: 0 8px 8px 0;
+    margin: 0.8em 0 1em 0;
+    page-break-inside: avoid;
+  }
+
+  .callout-title {
+    font-weight: bold;
+    color: #92400e;
+    margin-bottom: 3px;
+    font-size: 9.5pt;
+  }
+
+  .callout-blue {
+    border-left-color: #2563eb;
+    background-color: #eff6ff;
+  }
+  .callout-blue .callout-title {
+    color: #1e40af;
+  }
+
+  .callout-green {
+    border-left-color: #059669;
+    background-color: #ecfdf5;
+  }
+  .callout-green .callout-title {
+    color: #065f46;
+  }
+
+  .header-cover {
+    text-align: center;
+    padding: 20px 0 25px 0;
+    border-bottom: 2px solid #e2e8f0;
+    margin-bottom: 25px;
+  }
+
+  .church-title {
+    font-size: 22pt;
+    color: #0f172a;
+    margin: 0;
+    font-weight: 800;
+  }
+
+  .church-subtitle {
+    font-size: 13pt;
+    color: #b91c1c;
+    font-weight: 700;
+    margin: 4px 0 12px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .doc-meta {
+    display: inline-block;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 8.5pt;
+    color: #475569;
+    margin-top: 5px;
+  }
+
+  .page-break {
+    page-break-before: always;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 0.8em 0;
+    page-break-inside: avoid;
+  }
+
+  .card {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 12px;
+    background: #ffffff;
+  }
+
+  .card-header {
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 4px;
+    font-size: 9.5pt;
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER & HEADER -->
+<div class="header-cover">
+  <div class="church-title">CSI கிறிஸ்து ஆலயம் — கல்லிடைக்குறிச்சி</div>
+  <div class="church-subtitle">CSI Christ Church Kallidaikurichi</div>
+  <h1 style="border:none; margin: 10px 0; font-size: 17pt; color: #1e3a8a;">
+    Website Architecture, Codebase, Editing & Deployment Manual
+  </h1>
+  <div class="doc-meta">
+    <strong>Author:</strong> Website Engineering Team &nbsp;|&nbsp;
+    <strong>Stack:</strong> Next.js 14, React 18, TypeScript, Tailwind CSS &nbsp;|&nbsp;
+    <strong>Published:</strong> September 2026
+  </div>
+</div>
+
+<!-- SECTION 1: SYSTEM OVERVIEW -->
+<h2>1. Website Overview & Core Architecture</h2>
+<p>
+  This website is a modern, responsive web application engineered specifically for <strong>CSI Christ Church Kallidaikurichi</strong>. It provides church information, service schedule management, online sermon streaming, ministry highlights, photo gallery with lightbox, prayer request dispatching, and branch churches (sub-churches) directory.
+</p>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-header">⚡ Core Technologies</div>
+    <ul style="margin: 4px 0 0 15px; font-size: 8.5pt;">
+      <li><strong>Framework:</strong> Next.js 14.2 (App Router architecture)</li>
+      <li><strong>Language:</strong> TypeScript 5.5 (Strict type checking)</li>
+      <li><strong>Styling:</strong> Tailwind CSS 3.4 (Custom church colors)</li>
+      <li><strong>Icons:</strong> Lucide React (featherweight SVG icons)</li>
+      <li><strong>Fonts:</strong> Google Noto Sans Tamil & Inter</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-header">🌐 Key Website Features</div>
+    <ul style="margin: 4px 0 0 15px; font-size: 8.5pt;">
+      <li><strong>Two-Tier Header:</strong> Main header + high-contrast sub-header</li>
+      <li><strong>Adaptive Worship Scheduler:</strong> 1st–5th Sunday dynamic detection</li>
+      <li><strong>YouTube Integration:</strong> Latest, Live Stream, and Popular videos</li>
+      <li><strong>Photo Gallery:</strong> 21 optimized photos with interactive lightbox</li>
+      <li><strong>Prayer Request:</strong> Auto-email to official inbox + WhatsApp fallback</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SECTION 2: THE CENTRAL CONTROL PANEL -->
+<h2>2. The Central Control Panel: <code>data/church.ts</code></h2>
+<p>
+  To ensure non-programmers can easily update this website, <strong>90% of all website content is centralized in a single file</strong>:
+  <br><code>d:or website	amil-church-website	amil-church\data\church.ts</code>
+</p>
+
+<div class="callout callout-green">
+  <div class="callout-title">💡 Golden Rule of Editing:</div>
+  When you need to change phone numbers, email, WhatsApp, pastor details, service timings, sermon videos, sub-churches, or gallery photos, <strong>you only need to edit <code>data/church.ts</code>!</strong> You do not need to touch HTML or complex React code.
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Variable Name</th>
+      <th style="width: 25%;">Data Managed</th>
+      <th>Where it Appears on Website</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>churchInfo</code></td>
+      <td>Name, address, phone, email, WhatsApp, pastor name, catechist name, maps URL, social links</td>
+      <td>Header, Footer, About Page, Contact Page, Prayer confirmation modal</td>
+    </tr>
+    <tr>
+      <td><code>serviceTimes</code></td>
+      <td>Sunday Service, Tuesday Healing Service, Friday Bible Study, Fasting Prayer</td>
+      <td>Homepage "Oraman Times" section, About Page, Footer</td>
+    </tr>
+    <tr>
+      <td><code>sermons</code></td>
+      <td>YouTube URLs, video titles, thumbnail images, dates, video types (latest, live, popular)</td>
+      <td>Homepage Sermons section, <code>/sermons</code> page</td>
+    </tr>
+    <tr>
+      <td><code>subChurches</code></td>
+      <td>4 branch churches: name, location, address, timings, pastor, image, description</td>
+      <td><code>/sub-churches</code> page, Navigation menu</td>
+    </tr>
+    <tr>
+      <td><code>pastorsHistory</code></td>
+      <td>Chief Pastor, Catechist, and past pastors (photo, name, year of service)</td>
+      <td>History section on <code>/about#history</code> and <code>/history</code></td>
+    </tr>
+    <tr>
+      <td><code>galleryCategories</code> &amp; <code>galleryImages</code></td>
+      <td>Categories ("பண்டிகைகள் &amp; நிகழ்வுகள்", "சிறுவர் ஊழியம்", "ஆலயம் &amp; ஆராதனை"), photo paths, alt texts</td>
+      <td><code>/gallery</code> page (Category filter pills and lightbox)</td>
+    </tr>
+    <tr>
+      <td><code>events</code> &amp; <code>ministries</code></td>
+      <td>Upcoming church events, youth, men, women, Sunday school, and choir details</td>
+      <td><code>/events</code> and <code>/ministries</code> pages</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<!-- SECTION 3: IMAGE PATH GUIDE (START TO END) -->
+<h2>3. Complete Image Path Guide (Start to End)</h2>
+<p>
+  In Next.js, all images served to the browser must reside in the <strong><code>public/</code></strong> directory. When referencing an image in code, the path begins with <code>/images/...</code> (the word <code>public</code> is omitted in the code URL).
+</p>
+
+<h3>Directory Map: <code>public/images/</code></h3>
+<pre><code>d:or website	amil-church-website	amil-church\public\images├── church-logo.png               <-- Church Crest Logo (Header & Footer)
+├── church-building.jpg            <-- Church Altar Interior (About hero)
+├── church-hero.jpg                <-- Church Exterior with Cross (Homepage hero)
+├── chief-pastor.png               <-- Rev. P. Muthuraj (About, Contact, History)
+├── catechist.png                  <-- திரு. T. ரெபின் ஆஸ்டின் (About, Contact, History)
+│
+├── gallery/                       <-- Photo Gallery folder (21 Photos)
+│   ├── child-ministry-01.jpg      <-- Child Ministry Photo 1
+│   ├── child-ministry-02.jpg      <-- Child Ministry Photo 2
+│   ├── child-ministry-03.jpg      <-- Child Ministry Photo 3
+│   ├── child-ministry-04.jpg      <-- Child Ministry Photo 4
+│   ├── child-ministry-05.jpg      <-- Child Ministry Photo 5
+│   ├── child-ministry-06.jpg      <-- Child Ministry Photo 6
+│   ├── festival-event-01.jpg      <-- Christmas 2025 Celebration
+│   ├── festival-event-03.jpg      <-- Festival Service 1
+│   ├── festival-event-04.jpg      <-- Festival Service 2
+│   ├── festival-event-05.jpg      <-- Festival Service 3
+│   ├── festival-event-06.jpg      <-- Festival Service 4
+│   ├── festival-event-07.jpg      <-- Festival Service 5
+│   ├── festival-event-08.jpg      <-- New Year Watch Night Service
+│   ├── festival-event-09.jpg      <-- Special Service Gathering
+│   ├── festival-event-10.jpg      <-- Festival Families
+│   ├── festival-event-11.jpg      <-- Church Special Meeting
+│   ├── festival-event-12.jpg      <-- Choir & Music Worship
+│   ├── festival-event-13.jpg      <-- Revival Service
+│   └── church-sanctuary-main.jpg  <-- Altar Interior High-Res
+│
+└── pastors/                       <-- Past Pastors folder (For future uploads)
+    └── (Drop past pastor photos here, e.g., pastor-1.jpg, pastor-2.jpg)</code></pre>
+
+<h3>Image Specifications & Best Practices</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Image Usage</th>
+      <th>Recommended File Format</th>
+      <th>Ideal Dimensions</th>
+      <th>Max File Size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Church Logo</td>
+      <td><code>.png</code> (with transparent background)</td>
+      <td>512 x 512 px</td>
+      <td>&lt; 200 KB</td>
+    </tr>
+    <tr>
+      <td>Hero / Sanctuary Banners</td>
+      <td><code>.jpg</code> or <code>.webp</code></td>
+      <td>1920 x 1080 px (16:9)</td>
+      <td>&lt; 500 KB</td>
+    </tr>
+    <tr>
+      <td>Chief Pastor / Catechist Portraits</td>
+      <td><code>.png</code> or <code>.jpg</code></td>
+      <td>800 x 800 px (Square / 1:1)</td>
+      <td>&lt; 250 KB</td>
+    </tr>
+    <tr>
+      <td>Gallery Photos</td>
+      <td><code>.jpg</code></td>
+      <td>Max 1920 px on longest side</td>
+      <td>&lt; 450 KB</td>
+    </tr>
+    <tr>
+      <td>Sub-Churches Photos</td>
+      <td><code>.jpg</code></td>
+      <td>1280 x 720 px</td>
+      <td>&lt; 350 KB</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <div class="callout-title">⚠️ Critical Note Regarding Apple iPhone HEIC &amp; Camera DNG Files:</div>
+  Web browsers (Google Chrome, Safari on Windows/Android, Edge, Firefox) <strong>cannot display .HEIC or .DNG files natively</strong>. Always convert images to <code>.jpg</code> or <code>.png</code> before putting them into <code>public/images/</code>. All 6 original HEIC photos and DNG photos from your <code>Used</code> folder have already been pre-converted and optimized into <code>public/images/gallery/</code>.
+</div>
+
+<div class="page-break"></div>
+
+<!-- SECTION 4: HOW TO EDIT & UPDATE IN FUTURE -->
+<h2>4. Step-by-Step Guide: How to Edit Content</h2>
+
+<h3>A. Updating Pastor or Catechist Details</h3>
+<ol>
+  <li>To replace the Chief Pastor's photo: Copy your new photo to <code>public/images/chief-pastor.png</code> (overwriting the file).</li>
+  <li>To replace the Catechist's photo: Copy your new photo to <code>public/images/catechist.png</code>.</li>
+  <li>Open <code>data/church.ts</code> and update the text:
+<pre><code>pastorName: "Rev. P. Muthuraj M.Sc., B.D., P. G.Dip. Th.",
+pastorTitle: "தலைமை போதகர் (Chief Pastor & Pastorate Chairman)",
+catechistName: "திரு. T. ரெபின் ஆஸ்டின் B.A., B.D.",
+catechistTitle: "சபை ஊழியர் (Catechist)",</code></pre>
+  </li>
+</ol>
+
+<h3>B. Updating Sunday Worship Schedule &amp; Oraman Times</h3>
+<p>
+  The worship schedule logic in <code>components/ServiceTimes.tsx</code> automatically determines the current week of the month (1st through 5th week):
+</p>
+<ul>
+  <li><strong>1st Sunday:</strong> திருவிருந்து ஆராதனை (Holy Communion Service) — 09:00 to 11:30 AM</li>
+  <li><strong>2nd Sunday:</strong> வழக்கமான ஆராதனை (Regular Service) — 09:00 to 11:30 AM</li>
+  <li><strong>3rd Sunday:</strong> திருவிருந்து ஆராதனை (ஆங்கிலிக்கன் முறைமை - Anglican Order) — 09:00 to 11:30 AM</li>
+  <li><strong>4th Sunday:</strong> ஆராதனை (Worship Service) + <strong>4வது வார உபவாச ஜெபம் (Fasting Prayer)</strong></li>
+  <li><strong>5th Sunday (when present):</strong> வழக்கமான ஆராதனை (Regular Service) — 09:00 to 11:30 AM</li>
+  <li><strong>Every Tuesday:</strong> சுகமளிக்கும் ஆராதனை (Healing Service) — 07:00 to 08:00 PM</li>
+  <li><strong>Every Friday:</strong> வேதாகம ஆராய்ச்சி (Bible Study) — 07:00 to 08:00 PM</li>
+</ul>
+
+<h3>C. Updating Latest Sermons &amp; YouTube Videos</h3>
+<p>Open <code>data/church.ts</code> and find the <code>sermons</code> array. Each box corresponds to a video on the homepage:</p>
+<pre><code>export const sermons = [
+  {
+    id: "latest-video",
+    title: "30.08.2026 - SUNDAY SERVICE",   <-- Change Video Title
+    youtubeUrl: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID",
+    thumbnail: "https://i1.ytimg.com/vi/YOUR_VIDEO_ID/hqdefault.jpg",
+    type: "latest",
+  },
+  {
+    id: "live-stream",
+    title: "Sunday Service Live Stream | நேரலை ஆராதனை",
+    youtubeUrl: "https://www.youtube.com/channel/UC4aaLgFQ9gWtYFuT7oHehdg/live",
+    type: "live",
+  },
+  {
+    id: "popular-video",
+    title: "21வது ஸ்தோத்திரப் பண்டிகை | Kallidaikurichi Pastorate",
+    youtubeUrl: "https://www.youtube.com/watch?v=POPULAR_VIDEO_ID",
+    thumbnail: "https://i3.ytimg.com/vi/POPULAR_VIDEO_ID/hqdefault.jpg",
+    type: "popular",
+  }
+];</code></pre>
+
+<h3>D. Adding Past Pastors to History</h3>
+<p>
+  When you are ready to upload past pastors' photos:
+</p>
+<ol>
+  <li>Place their portrait photo in <code>public/images/pastors/past-pastor-1.jpg</code>.</li>
+  <li>Open <code>data/church.ts</code>, scroll to <code>pastorsHistory</code>, and update the entry:
+<pre><code>{
+  id: "past-pastor-1",
+  name: "போதகர் பெயர் (Pastor Name)",
+  role: "முந்தைய போதகர்",
+  year: "2016 - 2020",
+  image: "/images/pastors/past-pastor-1.jpg",
+  isCurrent: false,
+}</code></pre>
+  </li>
+  <li>The history section will automatically display the card showing <strong>only image, name, and year of working</strong>.</li>
+</ol>
+
+<div class="page-break"></div>
+
+<!-- SECTION 5: HOW TO RUN & DEVELOP -->
+<h2>5. Terminal Setup &amp; Development Workflow</h2>
+
+<h3>Running Locally for Development</h3>
+<p>Open your terminal (PowerShell / CMD / VS Code terminal) and navigate to the project directory:</p>
+<pre><code>d:
+cd "d:or website	amil-church-website	amil-church"
+
+# Start development server for computer only:
+npm run dev
+
+# Start development server accessible on BOTH Computer AND Mobile Phone:
+npm run dev -- -H 0.0.0.0</code></pre>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-header">💻 On Your Computer:</div>
+    Open your web browser and navigate to:
+    <br><a href="http://localhost:3000"><strong>http://localhost:3000</strong></a>
+  </div>
+  <div class="card">
+    <div class="card-header">📱 On Your Mobile Phone:</div>
+    Connect phone to the same Wi-Fi network and open:
+    <br><a href="http://192.168.1.4:3000"><strong>http://192.168.1.4:3000</strong></a>
+  </div>
+</div>
+
+<h3>Testing Production Build Locally</h3>
+<p>Before publishing or deploying, always verify that your TypeScript and static generation build cleanly:</p>
+<pre><code># Check for TypeScript errors:
+npx tsc --noEmit
+
+# Run full Next.js production build:
+npm run build</code></pre>
+
+<!-- SECTION 6: HOW TO PUBLISH LIVE -->
+<h2>6. Publishing Live to the World (Vercel &amp; GitHub)</h2>
+<p>
+  To make your website available to anyone in the world 24/7 without needing your personal computer to stay on:
+</p>
+
+<h3>Step 1: Push Code to GitHub (Backup &amp; Version Control)</h3>
+<pre><code># 1. Create a free repository on https://github.com named "csi-christ-church-website"
+# 2. In your terminal, link and push your code:
+git remote add origin https://github.com/YOUR_USERNAME/csi-christ-church-website.git
+git push -u origin main</code></pre>
+
+<h3>Step 2: Deploy to Vercel (100% Free Hosting with HTTPS)</h3>
+<ol>
+  <li>Create a free account at <strong><a href="https://vercel.com">vercel.com</a></strong> using your GitHub account.</li>
+  <li>Click <strong>"Add New..."</strong> &rarr; <strong>"Project"</strong>.</li>
+  <li>Select your <code>csi-christ-church-website</code> repository and click <strong>"Import"</strong>.</li>
+  <li>Click <strong>"Deploy"</strong> without modifying any settings.</li>
+  <li>Within 60 seconds, your site is live worldwide at: <code>https://csi-christ-church-website.vercel.app</code>!</li>
+</ol>
+
+<h3>Step 3: Continuous Automatic Deployment (CI/CD)</h3>
+<p>
+  Whenever you make updates in the future (e.g., adding a new gallery photo or changing sermon links):
+</p>
+<pre><code># Stage all changed files:
+git add .
+
+# Save with a message:
+git commit -m "Updated sermon video and service announcements"
+
+# Push to GitHub:
+git push</code></pre>
+<p>
+  <strong>Vercel automatically detects the push and re-deploys your live website in under 60 seconds!</strong>
+</p>
+
+<div class="callout callout-blue">
+  <div class="callout-title">🌐 Adding a Custom Domain (e.g., csichristchurchkallidai.org):</div>
+  In your Vercel Dashboard &rarr; Go to <strong>Settings</strong> &rarr; <strong>Domains</strong> &rarr; Enter your domain name and point the DNS records (A Record: <code>76.76.21.21</code> or CNAME: <code>cname.vercel-dns.com</code>). Vercel provides automatic, free SSL security certificates forever.
+</div>
+
+<div class="page-break"></div>
+
+<!-- SECTION 7: TROUBLESHOOTING & FAQ -->
+<h2>7. Troubleshooting &amp; Frequently Asked Questions</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 30%;">Issue Encountered</th>
+      <th style="width: 35%;">Probable Cause</th>
+      <th>Immediate Solution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Port 3000 already in use</strong></td>
+      <td>Another background Node instance is running.</td>
+      <td>Run <code>Get-Process node | Stop-Process -Force</code> in PowerShell, then re-run <code>npm run dev</code>.</td>
+    </tr>
+    <tr>
+      <td><strong>New photo not appearing</strong></td>
+      <td>Filename mismatch or missing from <code>data/church.ts</code>.</td>
+      <td>Check exact casing and extension (e.g. <code>.jpg</code> vs <code>.jpeg</code>) and ensure the file exists in <code>public/images/</code>.</td>
+    </tr>
+    <tr>
+      <td><strong>Mobile phone cannot load site</strong></td>
+      <td>Computer IP changed or phone on different Wi-Fi.</td>
+      <td>Check your PC's IP using <code>ipconfig</code> and ensure you ran <code>npm run dev -- -H 0.0.0.0</code>.</td>
+    </tr>
+    <tr>
+      <td><strong>Prayer request email inquiry</strong></td>
+      <td>Official recipient address.</td>
+      <td>All prayer submissions are directed to <code>csichristchruchofficial@gmail.com</code> and open pre-filled mail clients.</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr style="border: none; border-top: 1px solid #cbd5e1; margin: 30px 0 15px 0;">
+
+<div style="text-align: center; color: #64748b; font-size: 8.5pt;">
+  <strong>CSI Christ Church Kallidaikurichi (CSI கிறிஸ்து ஆலயம், கல்லிடைக்குறிச்சி)</strong><br>
+  Kallidaikurichi, Tamil Nadu 627416 | Phone: +91 9629212785 | Email: csichristchruchofficial@gmail.com<br>
+  <em>&ldquo;இதுவரைக்கும் கர்த்தர் எங்களுக்கு உதவி செய்தார்&rdquo; — 1 சாமுவேல் 7:12</em>
+</div>
+
+</body>
+</html>

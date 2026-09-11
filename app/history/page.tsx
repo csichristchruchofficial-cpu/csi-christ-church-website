@@ -32,7 +32,7 @@ export default function HistoryPage() {
             <History size={24} />
           </div>
           <h3 className="text-xl font-bold text-navy-900">
-            {churchInfo.name} — தெற்கு கல்லிடைக்குறிச்சி
+            {churchInfo.name} — கல்லிடைக்குறிச்சி
           </h3>
           <p className="mt-2 text-sm text-slate-600 leading-relaxed">
             &ldquo;இதுவரைக்கும் கர்த்தர் எங்களுக்கு உதவி செய்தார்&rdquo; (1 சாமுவேல் 7:12) என்ற விசுவாச வார்த்தையின்படி, பல தலைமுறைகளாக தேவனுடைய மாறாத கிருபையை ருசித்து வரும் திருச்சபையாக எமது ஆலயம் திகழ்கிறது.
@@ -73,7 +73,7 @@ export default function HistoryPage() {
                       {item.event}
                     </h4>
                     <p className="mt-1.5 text-xs text-slate-500 leading-relaxed">
-                      தெற்கு கல்லிடைக்குறிச்சி திருச்சபையின் விசுவாச வரலாற்றில் ஒரு முக்கியமான தருணம்.
+                      கல்லிடைக்குறிச்சி திருச்சபையின் விசுவாச வரலாற்றில் ஒரு முக்கியமான தருணம்.
                     </p>
                   </div>
                 </li>

@@ -7,7 +7,7 @@ import { subChurches, churchInfo } from "@/data/church";
 
 export const metadata: Metadata = {
   title: "கிளைத் திருச்சபைகள் (Sub Churches)",
-  description: "CSI கிறிஸ்து ஆலயம், தெற்கு கல்லிடைக்குறிச்சி - கிளைத் திருச்சபைகள், ஆராதனை நேரங்கள் மற்றும் இருப்பிடம்.",
+  description: "CSI கிறிஸ்து ஆலயம், கல்லிடைக்குறிச்சி - கிளைத் திருச்சபைகள், ஆராதனை நேரங்கள் மற்றும் இருப்பிடம்.",
 };
 
 export default function SubChurchesPage() {
@@ -16,7 +16,7 @@ export default function SubChurchesPage() {
       <div className="container-page">
         <SectionHeading
           title="கிளைத் திருச்சபைகள் (Sub Churches)"
-          subtitle="தெற்கு கல்லிடைக்குறிச்சி CSI கிறிஸ்து ஆலயத்தின் கீழ் இயங்கும் கிளைத் திருச்சபைகள்"
+          subtitle="கல்லிடைக்குறிச்சி CSI கிறிஸ்து ஆலயத்தின் கீழ் இயங்கும் கிளைத் திருச்சபைகள்"
         />
 
         {/* Helpful instructions banner for user */}
@@ -115,7 +115,7 @@ export default function SubChurchesPage() {
         {/* Bottom CTA */}
         <div className="mt-16 text-center">
           <Link href="/contact" className="btn-primary">
-            பிரதான ஆலயம் — தெற்கு கல்லிடைக்குறிச்சி
+            பிரதான ஆலயம் — கல்லிடைக்குறிச்சி
             <ArrowRight size={16} />
           </Link>
         </div>

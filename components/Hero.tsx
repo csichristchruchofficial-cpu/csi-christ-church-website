@@ -43,7 +43,7 @@ export default function Hero() {
 
           {/* English Name & Location Pill */}
           <p className="mx-auto mt-4 inline-block rounded-full bg-white/10 px-5 py-1 text-sm sm:text-base font-semibold text-white/90 backdrop-blur-md border border-white/15">
-            {churchInfo.nameEnglish} • தெற்கு கல்லிடைக்குறிச்சி
+            {churchInfo.nameEnglish} • கல்லிடைக்குறிச்சி
           </p>
 
           {/* Call to Actions */}

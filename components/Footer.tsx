@@ -32,7 +32,7 @@ export default function Footer() {
             </div>
           </div>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-slate-400">
-            {churchInfo.tagline}. தெற்கு கல்லிடைக்குறிச்சியில் கர்த்தரின் அன்பையும், இரட்சிப்பின் சத்தியத்தையும் அறிவிக்கும் திருச்சபை.
+            {churchInfo.tagline}. கல்லிடைக்குறிச்சியில் கர்த்தரின் அன்பையும், இரட்சிப்பின் சத்தியத்தையும் அறிவிக்கும் திருச்சபை.
           </p>
           <div className="mt-6 flex gap-3">
             <a

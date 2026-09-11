@@ -14,7 +14,7 @@ export default function AboutSection() {
       <div className="container-page relative z-10">
         <SectionHeading
           title="CSI கிறிஸ்து ஆலயத்திற்கு அன்போடு வரவேற்கின்றோம்"
-          subtitle="தெற்கு கல்லிடைக்குறிச்சியில் தேவனுடைய அன்பையும் கிருபையையும் பகிர்ந்துகொள்ளும் குடும்பம்"
+          subtitle="கல்லிடைக்குறிச்சியில் தேவனுடைய அன்பையும் கிருபையையும் பகிர்ந்துகொள்ளும் குடும்பம்"
         />
 
         <div className="mt-14 grid gap-12 lg:grid-cols-12 lg:items-center">
@@ -35,7 +35,7 @@ export default function AboutSection() {
                     பரிசுத்த அலங்காரத்துடனே கர்த்தரைத் தொழுதுகொள்ளுங்கள்
                   </span>
                   <p className="mt-1 text-sm font-medium text-slate-200">
-                    {churchInfo.name} — தெற்கு கல்லிடைக்குறிச்சி
+                    {churchInfo.name} — கல்லிடைக்குறிச்சி
                   </p>
                 </div>
               </div>
