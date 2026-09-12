@@ -261,3 +261,35 @@ article {
               box-shadow 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
               border-color 0.25s ease;
 }
+
+/* Album open & item stagger animations */
+@keyframes album-fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(22px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-album-open {
+  animation: album-fade-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes album-item-stagger {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-album-item {
+  animation: album-item-stagger 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+

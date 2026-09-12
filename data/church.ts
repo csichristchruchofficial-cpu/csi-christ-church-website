@@ -171,6 +171,50 @@ export const galleryCategories = [
   "ஆலயம் & ஆராதனை",
 ];
 
+export interface GalleryAlbum {
+  id: string;
+  name: string;
+  nameEnglish: string;
+  category: string;
+  tag: string;
+  description: string;
+  coverImage: string;
+  accentColor: "gold" | "crimson" | "royal";
+}
+
+export const galleryAlbums: GalleryAlbum[] = [
+  {
+    id: "festivals-events",
+    name: "பண்டிகைகள் & நிகழ்வுகள்",
+    nameEnglish: "Festivals & Church Functions",
+    category: "பண்டிகைகள் & நிகழ்வுகள்",
+    tag: "கிறிஸ்துமஸ் & சிறப்பு விழாக்கள்",
+    description: "கிறிஸ்துமஸ் பெருவிழா 2025, புத்தாண்டு ஆயத்த ஆராதனை மற்றும் திருச்சபையின் விசேஷ பண்டிகை ஆராதனைத் தருணங்கள்.",
+    coverImage: "/images/gallery/festival-event-01.jpg",
+    accentColor: "crimson",
+  },
+  {
+    id: "child-ministry",
+    name: "சிறுவர் ஊழியம் & ஞாயிறு பள்ளி",
+    nameEnglish: "Child Ministry & Sunday School",
+    category: "சிறுவர் ஊழியம்",
+    tag: "ஞாயிறு பள்ளி சிறார்கள்",
+    description: "ஞாயிறு பள்ளி சிறார்களின் ஆவிக்குரிய பாடல்கள், வேதாகம வகுப்புகள் மற்றும் சிறுவர் தின விழா கொண்டாட்டங்கள்.",
+    coverImage: "/images/gallery/child-ministry-05.jpg",
+    accentColor: "gold",
+  },
+  {
+    id: "church-sanctuary",
+    name: "ஆலயம் & கருவறை ஆராதனை",
+    nameEnglish: "Sanctuary & Holy Worship",
+    category: "ஆலயம் & ஆராதனை",
+    tag: "பரிசுத்த ஆலயம் & கருவறை",
+    description: "CSI கிறிஸ்து ஆலயத்தின் புனித கருவறை பலிபீட அலங்காரம் மற்றும் ஆலய வெளித்தோற்றக் கோபுரம்.",
+    coverImage: "/images/gallery/church-sanctuary-main.jpg",
+    accentColor: "royal",
+  },
+];
+
 export const galleryImages = [
   // --- சிறுவர் ஊழியம் (Child Ministry from D:\for website\Used\child ministry) ---
   {

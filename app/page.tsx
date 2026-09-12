@@ -5,6 +5,8 @@ import SermonsSection from "@/components/SermonsSection";
 import MinistriesSection from "@/components/MinistriesSection";
 import EventsSection from "@/components/EventsSection";
 import ContactSection from "@/components/ContactSection";
+import ChurchUpdates from "@/components/ChurchUpdates";
+import { churchUpdates } from "@/data/updates";
 
 export default function HomePage() {
   return (
@@ -12,6 +14,7 @@ export default function HomePage() {
       <Hero />
       <AboutSection />
       <ServiceTimes />
+      <ChurchUpdates initialUpdates={churchUpdates} />
       <SermonsSection />
       <MinistriesSection />
       <EventsSection />
