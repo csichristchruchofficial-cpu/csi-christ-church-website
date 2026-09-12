@@ -206,7 +206,7 @@ export const galleryAlbums: GalleryAlbum[] = [
   {
     id: "church-sanctuary",
     name: "ஆலயம் & கருவறை ஆராதனை",
-    nameEnglish: "Sanctuary & Holy Worship",
+    nameEnglish: "Church & Holy Worship",
     category: "ஆலயம் & ஆராதனை",
     tag: "பரிசுத்த ஆலயம் & கருவறை",
     description: "CSI கிறிஸ்து ஆலயத்தின் புனித கருவறை பலிபீட அலங்காரம் மற்றும் ஆலய வெளித்தோற்றக் கோபுரம்.",

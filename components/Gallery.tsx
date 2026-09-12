@@ -225,9 +225,16 @@ export default function Gallery() {
               </button>
               <div className="flex items-center gap-2.5">
                 {activeAlbum && getAlbumIcon(activeAlbum.id)}
-                <h3 className="text-xl sm:text-2xl font-black text-white">
-                  {activeAlbum?.name}
-                </h3>
+                <div>
+                  {activeAlbum?.nameEnglish && (
+                    <span className="text-[10px] font-bold text-amber-300 uppercase tracking-wider block">
+                      {activeAlbum.nameEnglish}
+                    </span>
+                  )}
+                  <h3 className="text-xl sm:text-2xl font-black text-white">
+                    {activeAlbum?.name}
+                  </h3>
+                </div>
               </div>
               <p className="text-xs text-slate-300 max-w-xl">
                 {activeAlbum?.description}
