@@ -1,9 +1,18 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Facebook, Instagram, Youtube, Phone, Mail, MapPin, Heart } from "lucide-react";
 import { churchInfo, navLinks } from "@/data/church";
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
+
   return (
     <footer className="relative bg-navy-950 text-slate-300">
       {/* Top Vibrant Accent Line */}
@@ -147,8 +156,14 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/10 py-6 text-center text-xs text-slate-400">
-        <p>
-          © 2026 <span className="notranslate" translate="no">{churchInfo.nameEnglish}</span>. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.
+        <p className="flex items-center justify-center gap-2 flex-wrap">
+          <span>© 2026 <span className="notranslate" translate="no">{churchInfo.nameEnglish}</span>. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.</span>
+          <Link
+            href="/admin"
+            className="text-slate-500 hover:text-gold text-[11px] transition-colors"
+          >
+            • Admin Portal
+          </Link>
         </p>
       </div>
     </footer>

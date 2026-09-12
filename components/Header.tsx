@@ -3,11 +3,13 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import MobileMenu from "./MobileMenu";
 import { churchInfo, navLinks } from "@/data/church";
 import { Phone, Clock, ArrowUp } from "lucide-react";
 
 export default function Header() {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -72,6 +74,10 @@ export default function Header() {
 
   function scrollToTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  if (pathname?.startsWith("/admin")) {
+    return null;
   }
 
   return (

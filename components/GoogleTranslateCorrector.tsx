@@ -133,3 +133,4 @@ export default function GoogleTranslateCorrector() {
 
   return null;
 }
+
