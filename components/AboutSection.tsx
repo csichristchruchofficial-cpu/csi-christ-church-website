@@ -35,7 +35,10 @@ export default function AboutSection() {
                     பரிசுத்த அலங்காரத்துடனே கர்த்தரைத் தொழுதுகொள்ளுங்கள்
                   </span>
                   <p className="mt-1 text-sm font-medium text-slate-200">
-                    {churchInfo.name} — கல்லிடைக்குறிச்சி
+                    <span className="church-name-ta-source">{churchInfo.name} — கல்லிடைக்குறிச்சி</span>
+                    <span className="church-name-en-override notranslate" translate="no">
+                      {churchInfo.nameEnglish} — Kallidaikurichi
+                    </span>
                   </p>
                 </div>
               </div>

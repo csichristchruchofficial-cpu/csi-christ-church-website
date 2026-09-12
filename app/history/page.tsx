@@ -32,7 +32,10 @@ export default function HistoryPage() {
             <History size={24} />
           </div>
           <h3 className="text-xl font-bold text-navy-900">
-            {churchInfo.name} — கல்லிடைக்குறிச்சி
+            <span className="church-name-ta-source">{churchInfo.name} — கல்லிடைக்குறிச்சி</span>
+            <span className="church-name-en-override notranslate" translate="no">
+              {churchInfo.nameEnglish} — Kallidaikurichi
+            </span>
           </h3>
           <p className="mt-2 text-sm text-slate-600 leading-relaxed">
             &ldquo;இதுவரைக்கும் கர்த்தர் எங்களுக்கு உதவி செய்தார்&rdquo; (1 சாமுவேல் 7:12) என்ற விசுவாச வார்த்தையின்படி, பல தலைமுறைகளாக தேவனுடைய மாறாத கிருபையை ருசித்து வரும் திருச்சபையாக எமது ஆலயம் திகழ்கிறது.

@@ -95,7 +95,10 @@ export default function MobileMenu() {
               >
                 <div className="flex items-center gap-3">
                   {navIcons[link.href] || <Church size={18} className="text-gold" />}
-                  <span>{link.label}</span>
+                  <span className="church-name-ta-source">{link.label}</span>
+                  <span className="church-name-en-override notranslate" translate="no">
+                    {link.labelEnglish}
+                  </span>
                 </div>
                 <span className="text-xs text-gold font-black">›</span>
               </Link>

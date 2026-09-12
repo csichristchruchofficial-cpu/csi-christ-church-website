@@ -24,9 +24,12 @@ export default function Footer() {
             </div>
             <div>
               <span className="block text-base font-bold text-white leading-tight">
-                {churchInfo.name}
+                <span className="church-name-ta-source">{churchInfo.name}</span>
+                <span className="church-name-en-override notranslate" translate="no">
+                  {churchInfo.nameEnglish}
+                </span>
               </span>
-              <span className="block text-[11px] font-bold text-gold-light uppercase tracking-wider">
+              <span className="block text-[11px] font-bold text-gold-light uppercase tracking-wider notranslate" translate="no">
                 {churchInfo.nameEnglish}
               </span>
             </div>
@@ -77,7 +80,10 @@ export default function Footer() {
                   href={link.href}
                   className="transition-colors hover:text-gold hover:translate-x-1 inline-block"
                 >
-                  {link.label}
+                  <span className="church-name-ta-source">{link.label}</span>
+                  <span className="church-name-en-override notranslate" translate="no">
+                    {link.labelEnglish}
+                  </span>
                 </Link>
               </li>
             ))}
@@ -142,7 +148,7 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="border-t border-white/10 py-6 text-center text-xs text-slate-400">
         <p>
-          © 2026 {churchInfo.name} ({churchInfo.nameEnglish}). அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.
+          © 2026 <span className="notranslate" translate="no">{churchInfo.nameEnglish}</span>. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.
         </p>
       </div>
     </footer>

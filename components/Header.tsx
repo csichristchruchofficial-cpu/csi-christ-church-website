@@ -116,9 +116,12 @@ export default function Header() {
                   isScrolled ? "text-sm sm:text-base md:text-lg" : "text-base sm:text-lg md:text-xl"
                 }`}
               >
-                {churchInfo.name}
+                <span className="church-name-ta-source">{churchInfo.name}</span>
+                <span className="church-name-en-override notranslate" translate="no">
+                  {churchInfo.nameEnglish}
+                </span>
               </span>
-              <span className="text-[10px] sm:text-xs font-black tracking-wider text-crimson uppercase truncate">
+              <span className="text-[10px] sm:text-xs font-black tracking-wider text-crimson uppercase truncate notranslate" translate="no">
                 CSI Christ Church Kallidai
               </span>
             </div>
@@ -131,7 +134,7 @@ export default function Header() {
               <Clock size={15} className="text-gold-dark shrink-0" />
               <div>
                 <span className="block font-bold text-navy-900 leading-tight">ஞாயிறு ஆராதனை</span>
-                <span className="text-amber-800 font-semibold text-[11px]">காலை 09:00 - 11:30 AM</span>
+                <span className="text-amber-800 font-semibold text-[11px] notranslate" translate="no">காலை 09:00 - 11:30 AM</span>
               </div>
             </div>
 
@@ -140,18 +143,19 @@ export default function Header() {
               href="/contact"
               className="btn-primary !py-2 !px-3.5 sm:!py-2.5 sm:!px-6 !text-xs sm:!text-sm font-bold shadow-sm hover:shadow-glow-gold/30 transition-all"
             >
-              <span>இணையுங்கள்</span>
-              <span className="hidden sm:inline text-xs font-semibold opacity-90"> (Join Us)</span>
+              <span className="church-name-ta-source">இணையுங்கள்</span>
+              <span className="church-name-en-override notranslate" translate="no">Join Us</span>
+              <span className="hidden sm:inline text-xs font-semibold opacity-90 notranslate" translate="no"> (Join Us)</span>
             </Link>
 
-            {/* Mobile High-Contrast Menu Button */}
+            {/* Mobile Hamburger Menu Component */}
             <MobileMenu />
           </div>
         </div>
       </div>
 
       {/* ============================================================== */}
-      {/* 2. SUB HEADER (High-Contrast Secondary Navigation Bar)         */}
+      {/* 2. NAVIGATION BAR                                              */}
       {/* ============================================================== */}
       <div
         className={`relative text-white border-b-2 border-gold/40 transition-all duration-300 ${
@@ -169,7 +173,8 @@ export default function Header() {
                 href={link.href}
                 className="relative rounded-lg px-3 py-1.5 text-xs xl:text-sm font-bold text-slate-200 transition-all duration-200 hover:bg-white/10 hover:text-gold-light group"
               >
-                <span>{link.label}</span>
+                <span className="church-name-ta-source">{link.label}</span>
+                <span className="church-name-en-override notranslate" translate="no">{link.labelEnglish}</span>
                 <span className="absolute bottom-0 left-2 right-2 h-[2px] bg-gold rounded-full opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
               </Link>
             ))}
@@ -181,7 +186,8 @@ export default function Header() {
                 type="button"
                 onClick={scrollToTop}
                 title="மேல்நோக்கி செல்ல (Back to top)"
-                className="inline-flex items-center gap-1 text-[11px] text-gold-light bg-white/10 hover:bg-gold hover:text-navy-950 px-2.5 py-1 rounded-full transition-all duration-200"
+                className="inline-flex items-center gap-1 text-[11px] text-gold-light bg-white/10 hover:bg-gold hover:text-navy-950 px-2.5 py-1 rounded-full transition-all duration-200 notranslate"
+                translate="no"
               >
                 <ArrowUp size={12} />
                 <span>மேலே</span>
@@ -190,7 +196,8 @@ export default function Header() {
 
             <a
               href={`tel:${churchInfo.phone}`}
-              className="flex items-center gap-1.5 text-slate-300 hover:text-gold transition-colors"
+              className="flex items-center gap-1.5 text-slate-300 hover:text-gold transition-colors notranslate"
+              translate="no"
             >
               <Phone size={13} className="text-gold" />
               <span>{churchInfo.phone}</span>
@@ -206,7 +213,8 @@ export default function Header() {
               href={link.href}
               className="shrink-0 rounded-full bg-white/10 px-3.5 py-1 text-xs font-black text-slate-100 border border-white/20 hover:bg-gold hover:text-navy-950 transition-all active:scale-95 shadow-sm"
             >
-              {link.label}
+              <span className="church-name-ta-source">{link.label}</span>
+              <span className="church-name-en-override notranslate" translate="no">{link.labelEnglish}</span>
             </Link>
           ))}
         </div>

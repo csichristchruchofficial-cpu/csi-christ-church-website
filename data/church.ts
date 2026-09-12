@@ -329,15 +329,15 @@ export const galleryImages = [
 ];
 
 export const navLinks = [
-  { href: "/", label: "முகப்பு" },
-  { href: "/about", label: "எங்களைப் பற்றி" },
-  { href: "/sub-churches", label: "கிளைத் திருச்சபைகள்" },
-  { href: "/ministries", label: "ஊழியங்கள்" },
-  { href: "/sermons", label: "பிரசங்கங்கள்" },
-  { href: "/events", label: "நிகழ்வுகள்" },
-  { href: "/gallery", label: "புகைப்பட தொகுப்பு" },
-  { href: "/prayer", label: "ஜெப விண்ணப்பம்" },
-  { href: "/contact", label: "தொடர்புக்கு" },
+  { href: "/", label: "முகப்பு", labelEnglish: "Home" },
+  { href: "/about", label: "எங்களைப் பற்றி", labelEnglish: "About Us" },
+  { href: "/sub-churches", label: "கிளைத் திருச்சபைகள்", labelEnglish: "Sub Churches" },
+  { href: "/ministries", label: "ஊழியங்கள்", labelEnglish: "Ministries" },
+  { href: "/sermons", label: "பிரசங்கங்கள்", labelEnglish: "Sermons" },
+  { href: "/events", label: "நிகழ்வுகள்", labelEnglish: "Events" },
+  { href: "/gallery", label: "புகைப்பட தொகுப்பு", labelEnglish: "Photo Gallery" },
+  { href: "/prayer", label: "ஜெப விண்ணப்பம்", labelEnglish: "Prayer Request" },
+  { href: "/contact", label: "தொடர்புக்கு", labelEnglish: "Contact Us" },
 ];
 
 export const subChurches = [

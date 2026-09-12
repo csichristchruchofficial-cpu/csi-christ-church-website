@@ -35,28 +35,43 @@ export default function Hero() {
         {/* Church Name & Welcome with Entry Fade-Up */}
         <div className="animate-entry-fade-up">
           <h1 className="mt-6 text-4xl font-extrabold leading-tight text-white sm:text-5xl md:text-6xl lg:text-7xl drop-shadow-md">
-            WELCOME To
+            <span className="notranslate" translate="no">WELCOME TO</span>
             <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-gold-light via-gold to-amber-400">
-              {churchInfo.name}
+              <span className="church-name-ta-source">{churchInfo.name}</span>
+              <span className="church-name-en-override notranslate" translate="no">
+                {churchInfo.nameEnglish}
+              </span>
             </span>
           </h1>
 
           {/* English Name & Location Pill */}
-          <p className="mx-auto mt-4 inline-block rounded-full bg-white/10 px-5 py-1 text-sm sm:text-base font-semibold text-white/90 backdrop-blur-md border border-white/15">
-            {churchInfo.nameEnglish} • கல்லிடைக்குறிச்சி
+          <p
+            className="mx-auto mt-4 inline-block rounded-full bg-white/10 px-5 py-1 text-sm sm:text-base font-semibold text-white/90 backdrop-blur-md border border-white/15 notranslate"
+            translate="no"
+          >
+            {churchInfo.nameEnglish} • Kallidaikurichi
           </p>
 
           {/* Call to Actions */}
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link href="/contact" className="btn-primary w-full sm:w-auto text-base">
-              எங்களுடன் இணையுங்கள்
+              <span className="church-name-ta-source">எங்களுடன் இணையுங்கள்</span>
+              <span className="church-name-en-override notranslate" translate="no">
+                Join Us
+              </span>
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link href="/sermons" className="btn-outline w-full sm:w-auto text-base">
-              பிரசங்கங்களைக் கேளுங்கள்
+              <span className="church-name-ta-source">பிரசங்கங்களைக் கேளுங்கள்</span>
+              <span className="church-name-en-override notranslate" translate="no">
+                Watch Sermons
+              </span>
             </Link>
             <Link href="/prayer" className="btn-crimson w-full sm:w-auto text-base">
-              ஜெப விண்ணப்பம்
+              <span className="church-name-ta-source">ஜெப விண்ணப்பம்</span>
+              <span className="church-name-en-override notranslate" translate="no">
+                Prayer Request
+              </span>
             </Link>
           </div>
         </div>

@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ButtonAnimationProvider from "@/components/ButtonAnimationProvider";
+import GoogleTranslateCorrector from "@/components/GoogleTranslateCorrector";
 import { churchInfo } from "@/data/church";
 
 const notoSansTamil = Noto_Sans_Tamil({
@@ -58,6 +59,7 @@ export default function RootLayout({
   return (
     <html lang="ta" className={`${notoSansTamil.variable} ${notoSerifTamil.variable}`}>
       <body className="font-tamil antialiased bg-slate-50 text-slate-900 selection:bg-gold selection:text-navy-950">
+        <GoogleTranslateCorrector />
         <ButtonAnimationProvider />
         <Header />
         <main className="min-h-screen">{children}</main>

@@ -293,3 +293,24 @@ article {
   animation: album-item-stagger 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* ============================================================== */
+/* Browser Auto-Translate (Google Translate) Handling             */
+/* Ensures church name displays as "Church" and never "Temple"    */
+/* ============================================================== */
+.church-name-en-override {
+  display: none !important;
+}
+
+html.translated-ltr .church-name-ta-source,
+html.translated-rtl .church-name-ta-source,
+html[lang="en"] .church-name-ta-source {
+  display: none !important;
+}
+
+html.translated-ltr .church-name-en-override,
+html.translated-rtl .church-name-en-override,
+html[lang="en"] .church-name-en-override {
+  display: inline !important;
+}
+
+

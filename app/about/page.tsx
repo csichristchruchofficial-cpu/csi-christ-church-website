@@ -37,7 +37,10 @@ export default function AboutPage() {
                   கல்லிடைக்குறிச்சி
                 </span>
                 <h3 className="mt-2 text-xl font-bold text-white">
-                  {churchInfo.name} ({churchInfo.nameEnglish})
+                  <span className="church-name-ta-source">{churchInfo.name} ({churchInfo.nameEnglish})</span>
+                  <span className="church-name-en-override notranslate" translate="no">
+                    {churchInfo.nameEnglish}
+                  </span>
                 </h3>
               </div>
             </div>
