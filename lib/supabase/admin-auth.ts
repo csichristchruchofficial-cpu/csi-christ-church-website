@@ -1,4 +1,5 @@
 import { createServerSupabaseClient } from "./server";
+import { isSupabaseConfigured } from "./client";
 
 export type AdminAuthResult =
   | {
@@ -27,6 +28,16 @@ export type AdminAuthResult =
  */
 export async function verifyAdminSession(): Promise<AdminAuthResult> {
   const supabase = createServerSupabaseClient();
+
+  // If Supabase credentials have not been configured yet
+  if (!isSupabaseConfigured()) {
+    return {
+      authorized: false,
+      user: null,
+      error: "Supabase database credentials are not configured yet. Please add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to your environment variables.",
+      supabase,
+    };
+  }
 
   // 1. Get authenticated user from session cookie
   const {

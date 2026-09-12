@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/client";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { churchInfo } from "@/data/church";
 import type {
   Announcement,
@@ -88,6 +88,11 @@ export default function AdminDashboardPage() {
   // 2. Verify Authentication & Admin Status
   useEffect(() => {
     async function verifyAdmin() {
+      if (!isSupabaseConfigured()) {
+        router.replace("/admin/login");
+        return;
+      }
+
       try {
         const {
           data: { session },

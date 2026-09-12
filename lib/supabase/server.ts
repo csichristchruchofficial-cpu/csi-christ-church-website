@@ -3,13 +3,16 @@ import { cookies } from "next/headers";
 import type { Database } from "./types";
 
 /**
- * Creates a server-side Supabase client for Server Components,
- * Server Actions, and Route Handlers using cookies from next/headers.
+ * Creates a server-side Supabase client using @supabase/ssr.
+ * Safely falls back to placeholder credentials during build/prerender so
+ * Next.js static generation on Vercel never fails when env vars are pending.
  */
 export function createServerSupabaseClient() {
   const cookieStore = cookies();
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+  const supabaseUrl =
+    process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder-project.supabase.co";
+  const supabaseAnonKey =
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder-anon-key";
 
   return createServerClient<Database>(supabaseUrl, supabaseAnonKey, {
     cookies: {
@@ -20,17 +23,16 @@ export function createServerSupabaseClient() {
         try {
           cookieStore.set({ name, value, ...options });
         } catch {
-          // Ignored if called from a Server Component where response cookies cannot be set directly.
+          // Ignored in Server Components
         }
       },
       remove(name: string, options: CookieOptions) {
         try {
           cookieStore.set({ name, value: "", ...options, maxAge: 0 });
         } catch {
-          // Ignored if called from a Server Component.
+          // Ignored in Server Components
         }
       },
     },
   });
 }
-

@@ -4,7 +4,7 @@ import { useState, useEffect, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/client";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import { churchInfo } from "@/data/church";
 import {
   Lock,
@@ -33,6 +33,11 @@ export default function AdminLoginPage() {
   // Check if already authenticated as an admin
   useEffect(() => {
     async function checkExistingSession() {
+      if (!isSupabaseConfigured()) {
+        setInitialChecking(false);
+        return;
+      }
+
       try {
         const {
           data: { session },
@@ -64,6 +69,14 @@ export default function AdminLoginPage() {
     e.preventDefault();
     setErrorMessage(null);
     setSuccessMessage(null);
+
+    if (!isSupabaseConfigured()) {
+      setErrorMessage(
+        "Supabase credentials are not configured yet. Please add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to your Vercel Project Settings."
+      );
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -172,6 +185,22 @@ export default function AdminLoginPage() {
 
         {/* Login Card */}
         <div className="mt-8 rounded-3xl border border-white/15 bg-white/5 backdrop-blur-xl p-6 sm:p-8 shadow-2xl">
+          {/* Supabase Setup Notice */}
+          {!isSupabaseConfigured() && (
+            <div
+              role="alert"
+              className="mb-5 rounded-2xl border border-amber-400/50 bg-amber-500/15 p-4 text-xs sm:text-sm text-amber-200 space-y-2"
+            >
+              <div className="flex items-center gap-2 font-black text-amber-300">
+                <AlertCircle size={16} />
+                <span>Supabase Configuration Required</span>
+              </div>
+              <p className="text-xs text-amber-200/90 leading-relaxed">
+                To connect your database, please add <code className="bg-black/30 px-1 py-0.5 rounded font-mono text-amber-300">NEXT_PUBLIC_SUPABASE_URL</code> and <code className="bg-black/30 px-1 py-0.5 rounded font-mono text-amber-300">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> in your <strong>Vercel Project Settings &rarr; Environment Variables</strong>.
+              </p>
+            </div>
+          )}
+
           {/* Error Alert */}
           {errorMessage && (
             <div
