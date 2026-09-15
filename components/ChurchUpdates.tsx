@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import type { ChurchUpdate } from "@/data/updates";
 import ScrollReveal from "./ScrollReveal";
+import PushNotificationPrompt from "./PushNotificationPrompt";
 
 function formatDate(dateString: string) {
   try {
@@ -188,23 +189,28 @@ export default function ChurchUpdates({
           </div>
         )}
 
-        {/* Indicator Dots when multiple */}
-        {updates.length > 1 && (
-          <div className="mt-3 flex items-center justify-center gap-1.5 pt-1 border-t border-white/5">
-            {updates.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setCurrentIndex(idx)}
-                aria-label={`Go to announcement ${idx + 1}`}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  idx === currentIndex
-                    ? "w-6 bg-gold"
-                    : "w-1.5 bg-white/30 hover:bg-white/50"
-                }`}
-              />
-            ))}
-          </div>
-        )}
+        {/* Card Footer: Push Notification Prompt & Dot Indicators */}
+        <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between gap-3 flex-wrap">
+          <PushNotificationPrompt variant="pill" />
+
+          {/* Indicator Dots when multiple */}
+          {updates.length > 1 && (
+            <div className="flex items-center gap-1.5 ml-auto">
+              {updates.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentIndex(idx)}
+                  aria-label={`Go to announcement ${idx + 1}`}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    idx === currentIndex
+                      ? "w-6 bg-gold"
+                      : "w-1.5 bg-white/30 hover:bg-white/50"
+                  }`}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </ScrollReveal>
   );

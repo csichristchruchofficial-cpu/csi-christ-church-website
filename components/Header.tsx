@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import MobileMenu from "./MobileMenu";
 import { churchInfo, navLinks } from "@/data/church";
 import { Phone, Clock, ArrowUp } from "lucide-react";
+import PushNotificationPrompt from "./PushNotificationPrompt";
 
 export default function Header() {
   const pathname = usePathname();
@@ -143,6 +144,9 @@ export default function Header() {
                 <span className="text-amber-800 font-semibold text-[11px] notranslate" translate="no">காலை 09:00 - 11:30 AM</span>
               </div>
             </div>
+
+            {/* Push Notification Alerts Toggle */}
+            <PushNotificationPrompt variant="button" className="hidden sm:inline-flex" />
 
             {/* JOIN US Button */}
             <Link

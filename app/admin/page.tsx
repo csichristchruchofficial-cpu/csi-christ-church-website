@@ -51,11 +51,24 @@ export default function AdminDashboardPage() {
   const [formSuccess, setFormSuccess] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
   const [processingId, setProcessingId] = useState<string | null>(null);
+  const [subscriberCount, setSubscriberCount] = useState<number | null>(null);
 
   // Active Tab for announcement list view
   const [activeTab, setActiveTab] = useState<"pending" | "approved" | "rejected">(
     "pending"
   );
+
+  const fetchSubscriberCount = useCallback(async () => {
+    try {
+      const res = await fetch("/api/push/subscribers-count", { cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        setSubscriberCount(data.count ?? 0);
+      }
+    } catch {
+      // Ignore
+    }
+  }, []);
 
   // 1. Fetch all announcements from the secure admin API
   const fetchAnnouncements = useCallback(async () => {
@@ -118,6 +131,7 @@ export default function AdminDashboardPage() {
         setAdminEmail(session.user.email || adminRecord.email || "Administrator");
         setCheckingAuth(false);
         fetchAnnouncements();
+        fetchSubscriberCount();
       } catch (err) {
         console.error("Auth check failed:", err);
         router.replace("/admin/login");
@@ -125,7 +139,7 @@ export default function AdminDashboardPage() {
     }
 
     verifyAdmin();
-  }, [router, supabase, fetchAnnouncements]);
+  }, [router, supabase, fetchAnnouncements, fetchSubscriberCount]);
 
   // 3. Create Announcement Mutation
   async function handleCreateAnnouncement(e: FormEvent) {
@@ -337,6 +351,20 @@ export default function AdminDashboardPage() {
               </span>
             </div>
 
+            {/* Phone Subscribers Badge */}
+            <div
+              title="பதிவுசெய்துள்ள போன் மற்றும் பிரவுசர் சந்தாதாரர்கள் (Registered Push Subscribers)"
+              className="hidden sm:flex items-center gap-2 rounded-xl bg-royal/20 border border-royal/30 px-3 py-1.5 text-xs text-blue-200"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+              </span>
+              <span>
+                <strong>{subscriberCount !== null ? subscriberCount : "..."}</strong> போன் சந்தாதாரர்கள் (Subscribers)
+              </span>
+            </div>
+
             <Link
               href="/"
               target="_blank"
@@ -493,6 +521,14 @@ export default function AdminDashboardPage() {
                 >
                   உடனே நேரலையில் வெளியிட (Approve & Publish Live Immediately)
                 </label>
+              </div>
+
+              {/* Web Push Broadcast Notice */}
+              <div className="rounded-2xl bg-royal/15 border border-royal/30 p-3 text-xs text-blue-200 flex items-start gap-2.5">
+                <Bell className="h-4 w-4 text-royal-light shrink-0 mt-0.5" />
+                <p className="leading-relaxed">
+                  <strong>Browser Web Push:</strong> அறிவிப்பு அங்கீகரிக்கப்படும்போது, போனில் அறிவிப்புகளை இயக்கியுள்ள அனைத்து சந்தாதாரர்களுக்கும் சிஸ்டம் நோட்டிபிகேஷன் தானாகவே அனுப்பப்படும்.
+                </p>
               </div>
 
               {/* Submit Button */}

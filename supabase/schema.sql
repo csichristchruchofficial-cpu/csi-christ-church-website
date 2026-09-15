@@ -99,6 +99,48 @@ CREATE POLICY "Admins can delete announcements"
   TO authenticated
   USING (public.is_admin());
 
+-- 6. CREATE PUSH_SUBSCRIPTIONS TABLE
+-- Stores browser web push notification subscriptions
+CREATE TABLE IF NOT EXISTS public.push_subscriptions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  endpoint TEXT NOT NULL UNIQUE,
+  p256dh TEXT NOT NULL,
+  auth TEXT NOT NULL,
+  user_agent TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- Index on endpoint for quick lookup
+CREATE INDEX IF NOT EXISTS idx_push_subscriptions_endpoint 
+  ON public.push_subscriptions (endpoint);
+
+-- 7. ROW LEVEL SECURITY (RLS) FOR PUSH_SUBSCRIPTIONS
+ALTER TABLE public.push_subscriptions ENABLE ROW LEVEL SECURITY;
+
+-- Allow anyone (visitors on web/mobile) to register their push subscription
+DROP POLICY IF EXISTS "Anyone can register push subscription" ON public.push_subscriptions;
+CREATE POLICY "Anyone can register push subscription"
+  ON public.push_subscriptions
+  FOR INSERT
+  TO anon, authenticated
+  WITH CHECK (true);
+
+-- Allow anyone to unsubscribe their own endpoint
+DROP POLICY IF EXISTS "Anyone can remove their push subscription" ON public.push_subscriptions;
+CREATE POLICY "Anyone can remove their push subscription"
+  ON public.push_subscriptions
+  FOR DELETE
+  TO anon, authenticated
+  USING (true);
+
+-- Admins can view all subscriptions (for subscriber count & broadcasting)
+DROP POLICY IF EXISTS "Admins can view push subscriptions" ON public.push_subscriptions;
+CREATE POLICY "Admins can view push subscriptions"
+  ON public.push_subscriptions
+  FOR SELECT
+  TO authenticated
+  USING (public.is_admin());
+
 -- ====================================================================
 -- HOW TO ADD YOUR FIRST ADMIN:
 -- 1. In Supabase Dashboard -> Authentication -> Users, create an admin user

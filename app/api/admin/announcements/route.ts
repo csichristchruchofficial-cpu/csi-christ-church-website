@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { verifyAdminSession } from "@/lib/supabase/admin-auth";
 import type { AnnouncementCategory, AnnouncementStatus } from "@/lib/supabase/types";
+import { broadcastPushNotification } from "@/lib/push/web-push";
 
 export const dynamic = "force-dynamic";
 
@@ -83,6 +84,23 @@ export async function POST(request: Request) {
         { error: "Failed to create announcement: " + error.message },
         { status: 500 }
       );
+    }
+
+    // If published as approved immediately, broadcast push notification to all subscribers
+    if (finalStatus === "approved" && newAnnouncement) {
+      const categoryTitle =
+        newAnnouncement.category === "Prayer"
+          ? "🙏 புதிய ஜெபக் குறிப்பு (Prayer Alert)"
+          : newAnnouncement.category === "Event"
+          ? "📅 புதிய நிகழ்வு அறிவிப்பு (Church Event)"
+          : "📢 புதிய திருச்சபை அறிவிப்பு (Church Announcement)";
+
+      broadcastPushNotification({
+        title: categoryTitle,
+        message: newAnnouncement.message,
+        category: newAnnouncement.category,
+        url: "/",
+      }).catch((err) => console.error("Push broadcast error:", err));
     }
 
     return NextResponse.json({ announcement: newAnnouncement }, { status: 201 });
