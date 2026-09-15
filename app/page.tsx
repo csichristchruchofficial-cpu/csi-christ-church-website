@@ -2,8 +2,8 @@ import Hero from "@/components/Hero";
 import AboutSection from "@/components/AboutSection";
 import ServiceTimes from "@/components/ServiceTimes";
 import SermonsSection from "@/components/SermonsSection";
+import GallerySection from "@/components/GallerySection";
 import MinistriesSection from "@/components/MinistriesSection";
-import EventsSection from "@/components/EventsSection";
 import ContactSection from "@/components/ContactSection";
 import ChurchUpdates from "@/components/ChurchUpdates";
 import { churchUpdates } from "@/data/updates";
@@ -17,8 +17,8 @@ export default function HomePage() {
       <AboutSection />
       <ServiceTimes />
       <SermonsSection />
+      <GallerySection />
       <MinistriesSection />
-      <EventsSection />
       <ContactSection />
     </>
   );

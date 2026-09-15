@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import {
   X,
@@ -18,7 +18,13 @@ import {
 } from "lucide-react";
 import { galleryAlbums, galleryImages, GalleryAlbum } from "@/data/church";
 
-export default function Gallery() {
+type GalleryProps = {
+  hideHeader?: boolean;
+};
+
+export default function Gallery({ hideHeader = false }: GalleryProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   // Currently opened album ID (null means showing folder overview)
   const [selectedAlbumId, setSelectedAlbumId] = useState<string | null>(null);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
@@ -54,8 +60,9 @@ export default function Gallery() {
 
   function openAlbum(albumId: string) {
     setSelectedAlbumId(albumId);
-    // Smooth scroll to gallery container
-    window.scrollTo({ top: 350, behavior: "smooth" });
+    if (containerRef.current) {
+      containerRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }
 
   function closeAlbum() {
@@ -91,37 +98,39 @@ export default function Gallery() {
   }
 
   return (
-    <div>
+    <div ref={containerRef}>
       {/* ============================================================== */}
       {/* 1. ROOT FOLDER / ALBUM SELECTION VIEW                          */}
       {/* ============================================================== */}
       {selectedAlbumId === null ? (
         <div className="space-y-8 animate-overlay-fade-in">
-          {/* Top Banner Info */}
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <div className="inline-flex items-center gap-2 rounded-full bg-gold/15 px-4 py-1 text-xs font-black text-navy-950 border border-gold/30">
-              <Folder size={14} className="text-gold-dark" />
-              <span>திருச்சபை புகைப்பட ஆல்பங்கள் (Photo Albums)</span>
-            </div>
-            <h3 className="text-2xl sm:text-3xl font-black text-navy-900">
-              நிகழ்வுகள் & ஊழியங்கள் வாரியான தொகுப்புகள்
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-600">
-              விரும்பிய ஆல்பத்தை கிளிக் செய்து அதிலுள்ள புகைப்படங்களை தனித்தனியாகக் காணலாம்.
-            </p>
+          {/* Top Banner Info (Hidden when parent section already has heading) */}
+          {!hideHeader && (
+            <div className="text-center max-w-2xl mx-auto space-y-2">
+              <div className="inline-flex items-center gap-2 rounded-full bg-gold/15 px-4 py-1 text-xs font-black text-navy-950 border border-gold/30">
+                <Folder size={14} className="text-gold-dark" />
+                <span>திருச்சபை புகைப்பட ஆல்பங்கள் (Photo Albums)</span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-black text-navy-900">
+                நிகழ்வுகள் & ஊழியங்கள் வாரியான தொகுப்புகள்
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600">
+                விரும்பிய ஆல்பத்தை கிளிக் செய்து அதிலுள்ள புகைப்படங்களை தனித்தனியாகக் காணலாம்.
+              </p>
 
-            {/* Total Counters Badge */}
-            <div className="pt-1 flex items-center justify-center gap-3 text-xs font-bold text-slate-600">
-              <span className="flex items-center gap-1.5 bg-white border border-slate-200 rounded-full px-3 py-1 shadow-sm">
-                <Folder size={13} className="text-gold-dark" />
-                {galleryAlbums.length} ஆல்பங்கள் (Albums)
-              </span>
-              <span className="flex items-center gap-1.5 bg-white border border-slate-200 rounded-full px-3 py-1 shadow-sm">
-                <Images size={13} className="text-crimson" />
-                {galleryImages.length} புகைப்படங்கள்
-              </span>
+              {/* Total Counters Badge */}
+              <div className="pt-1 flex items-center justify-center gap-3 text-xs font-bold text-slate-600">
+                <span className="flex items-center gap-1.5 bg-white border border-slate-200 rounded-full px-3 py-1 shadow-sm">
+                  <Folder size={13} className="text-gold-dark" />
+                  {galleryAlbums.length} ஆல்பங்கள் (Albums)
+                </span>
+                <span className="flex items-center gap-1.5 bg-white border border-slate-200 rounded-full px-3 py-1 shadow-sm">
+                  <Images size={13} className="text-crimson" />
+                  {galleryImages.length} புகைப்படங்கள்
+                </span>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Grid of Folders / Albums with Stacked Tactile Cover Effect */}
           <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
