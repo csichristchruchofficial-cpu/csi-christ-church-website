@@ -48,6 +48,7 @@ $$;
 ALTER TABLE public.admins ENABLE ROW LEVEL SECURITY;
 
 -- Allow authenticated users to view admins if they are checking their own status or are already an admin
+DROP POLICY IF EXISTS "Admins can view admin directory" ON public.admins;
 CREATE POLICY "Admins can view admin directory"
   ON public.admins
   FOR SELECT
@@ -58,6 +59,7 @@ CREATE POLICY "Admins can view admin directory"
 ALTER TABLE public.announcements ENABLE ROW LEVEL SECURITY;
 
 -- Policy 1: Public users (anon and authenticated) can select ONLY approved announcements
+DROP POLICY IF EXISTS "Public users can view approved announcements" ON public.announcements;
 CREATE POLICY "Public users can view approved announcements"
   ON public.announcements
   FOR SELECT
@@ -65,6 +67,7 @@ CREATE POLICY "Public users can view approved announcements"
   USING (status = 'approved');
 
 -- Policy 2: Admins can view ALL announcements (pending, approved, rejected)
+DROP POLICY IF EXISTS "Admins can view all announcements" ON public.announcements;
 CREATE POLICY "Admins can view all announcements"
   ON public.announcements
   FOR SELECT
@@ -72,6 +75,7 @@ CREATE POLICY "Admins can view all announcements"
   USING (public.is_admin());
 
 -- Policy 3: Admins can insert announcements
+DROP POLICY IF EXISTS "Admins can insert announcements" ON public.announcements;
 CREATE POLICY "Admins can insert announcements"
   ON public.announcements
   FOR INSERT
@@ -79,6 +83,7 @@ CREATE POLICY "Admins can insert announcements"
   WITH CHECK (public.is_admin());
 
 -- Policy 4: Admins can update announcements (approve, reject, edit)
+DROP POLICY IF EXISTS "Admins can update announcements" ON public.announcements;
 CREATE POLICY "Admins can update announcements"
   ON public.announcements
   FOR UPDATE
@@ -87,6 +92,7 @@ CREATE POLICY "Admins can update announcements"
   WITH CHECK (public.is_admin());
 
 -- Policy 5: Admins can delete announcements
+DROP POLICY IF EXISTS "Admins can delete announcements" ON public.announcements;
 CREATE POLICY "Admins can delete announcements"
   ON public.announcements
   FOR DELETE
