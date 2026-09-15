@@ -155,16 +155,21 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-white/10 py-6 text-center text-xs text-slate-400">
-        <p className="flex items-center justify-center gap-2 flex-wrap">
-          <span>© 2026 <span className="notranslate" translate="no">{churchInfo.nameEnglish}</span>. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.</span>
-          <Link
-            href="/admin"
-            className="text-slate-500 hover:text-gold text-[11px] transition-colors"
-          >
-            • Admin Portal
-          </Link>
-        </p>
+      <div className="border-t border-white/10 py-6 text-xs text-slate-400">
+        <div className="container-page flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+          <p className="flex items-center justify-center gap-2 flex-wrap">
+            <span>© 2026 <span className="notranslate" translate="no">{churchInfo.nameEnglish}</span>. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.</span>
+            <Link
+              href="/admin"
+              className="text-slate-500 hover:text-gold text-[11px] transition-colors"
+            >
+              • Admin Portal
+            </Link>
+          </p>
+          <p className="text-[11px] text-slate-400 font-medium notranslate" translate="no">
+            The website developed by <span className="text-gold-light font-semibold">Jebastin</span>
+          </p>
+        </div>
       </div>
     </footer>
   );
