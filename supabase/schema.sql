@@ -141,6 +141,64 @@ CREATE POLICY "Admins can view push subscriptions"
   TO authenticated
   USING (public.is_admin());
 
+-- 8. CREATE CHURCH_PEOPLE_DATES TABLE
+-- Stores birthdays and wedding anniversaries for congregation members
+CREATE TABLE IF NOT EXISTS public.church_people_dates (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  date_of_birth DATE,
+  anniversary_date DATE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+  created_by UUID REFERENCES auth.users(id) ON DELETE SET NULL
+);
+
+-- Indexes for performance
+CREATE INDEX IF NOT EXISTS idx_church_people_dates_dob 
+  ON public.church_people_dates (date_of_birth);
+
+CREATE INDEX IF NOT EXISTS idx_church_people_dates_anniversary 
+  ON public.church_people_dates (anniversary_date);
+
+CREATE INDEX IF NOT EXISTS idx_church_people_dates_name 
+  ON public.church_people_dates (name);
+
+-- 9. ROW LEVEL SECURITY (RLS) FOR CHURCH_PEOPLE_DATES
+ALTER TABLE public.church_people_dates ENABLE ROW LEVEL SECURITY;
+
+-- Allow public to view celebration dates for homepage display
+DROP POLICY IF EXISTS "Public can view celebration dates" ON public.church_people_dates;
+CREATE POLICY "Public can view celebration dates"
+  ON public.church_people_dates
+  FOR SELECT
+  TO anon, authenticated
+  USING (true);
+
+-- Allow admins to insert celebration dates
+DROP POLICY IF EXISTS "Admins can insert celebration dates" ON public.church_people_dates;
+CREATE POLICY "Admins can insert celebration dates"
+  ON public.church_people_dates
+  FOR INSERT
+  TO authenticated
+  WITH CHECK (public.is_admin());
+
+-- Allow admins to update celebration dates
+DROP POLICY IF EXISTS "Admins can update celebration dates" ON public.church_people_dates;
+CREATE POLICY "Admins can update celebration dates"
+  ON public.church_people_dates
+  FOR UPDATE
+  TO authenticated
+  USING (public.is_admin())
+  WITH CHECK (public.is_admin());
+
+-- Allow admins to delete celebration dates
+DROP POLICY IF EXISTS "Admins can delete celebration dates" ON public.church_people_dates;
+CREATE POLICY "Admins can delete celebration dates"
+  ON public.church_people_dates
+  FOR DELETE
+  TO authenticated
+  USING (public.is_admin());
+
 -- ====================================================================
 -- HOW TO ADD YOUR FIRST ADMIN:
 -- 1. In Supabase Dashboard -> Authentication -> Users, create an admin user

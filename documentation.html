@@ -613,6 +613,59 @@ git push</code></pre>
   </tbody>
 </table>
 
+<div class="page-break"></div>
+
+<!-- SECTION 8: BIRTHDAY & ANNIVERSARY MANAGEMENT SYSTEM -->
+<h2>8. Birthday &amp; Wedding Anniversary Management System</h2>
+<p>
+  The website features an automated Birthday and Wedding Anniversary greeting system for church families. It displays upcoming events for the next 30 days (Asia/Kolkata timezone), highlights today's celebrations with animated badges, and allows administrators to bulk-import church records from Excel spreadsheets.
+</p>
+
+<h3>Supported Excel Spreadsheets</h3>
+<ul>
+  <li><strong>Birthday List (<code>Birthday_List.xlsx</code>)</strong>: Sheet named <code>Birthdays</code> with columns <code>Name</code> and <code>Date of Birth</code>.</li>
+  <li><strong>Wedding Anniversary List (<code>Anniversary_List.xlsx</code>)</strong>: Sheet named <code>Anniversaries</code> with columns <code>Husband/Wife Names</code> and <code>Anniversary Date</code>.</li>
+</ul>
+
+<h3>Supported Date Formats</h3>
+<ul>
+  <li>Native Excel numeric serial dates (e.g., <code>45292</code> &rarr; <code>2024-01-01</code>)</li>
+  <li>Standard date strings: <code>DD-MM-YYYY</code>, <code>DD/MM/YYYY</code>, <code>YYYY-MM-DD</code></li>
+  <li>Leap year handling: February 29th events automatically map to February 28th during non-leap years.</li>
+</ul>
+
+<h3>Database Schema (Supabase SQL)</h3>
+<pre><code>CREATE TABLE IF NOT EXISTS public.church_people_dates (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  date_of_birth DATE,
+  anniversary_date DATE,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  created_by UUID REFERENCES auth.users(id) ON DELETE SET NULL
+);
+
+-- Indexes for high-performance date lookups & search:
+CREATE INDEX idx_church_people_dob ON public.church_people_dates (date_of_birth);
+CREATE INDEX idx_church_people_anniversary ON public.church_people_dates (anniversary_date);
+CREATE INDEX idx_church_people_name ON public.church_people_dates (name);
+
+-- Row Level Security (RLS):
+ALTER TABLE public.church_people_dates ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public read celebration dates" ON public.church_people_dates FOR SELECT USING (true);
+CREATE POLICY "Admins full manage church_people_dates" ON public.church_people_dates
+  FOR ALL USING (auth.role() = 'authenticated') WITH CHECK (auth.role() = 'authenticated');</code></pre>
+
+<h3>Admin Dashboard Operations</h3>
+<ol>
+  <li>Log in to <code>/admin</code> using your church administrator credentials.</li>
+  <li>Click the <strong>🎂 பிறந்தநாள் &amp; திருமண நாள் மேலாளர் (Birthday &amp; Anniversary Manager)</strong> tab.</li>
+  <li>Select either <strong>பிறந்தநாள் (Birthday)</strong> or <strong>திருமண நாள் (Anniversary)</strong>.</li>
+  <li>Choose or drag-and-drop your <code>.xlsx</code> file. The system parses and previews the records.</li>
+  <li>Click <strong>இறக்குமதியை உறுதிசெய் (Confirm &amp; Import)</strong>. The system merges records by member name and reports imported, updated, and skipped counts.</li>
+  <li>Use the search bar, manual add button, edit icon, or delete icon to update individual records at any time.</li>
+</ol>
+
 <hr style="border: none; border-top: 1px solid #cbd5e1; margin: 30px 0 15px 0;">
 
 <div style="text-align: center; color: #64748b; font-size: 8.5pt;">

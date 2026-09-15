@@ -18,6 +18,16 @@ export type Admin = {
   created_at: string;
 };
 
+export type ChurchPersonDate = {
+  id: string;
+  name: string;
+  date_of_birth: string | null;
+  anniversary_date: string | null;
+  created_at: string;
+  updated_at: string;
+  created_by: string | null;
+};
+
 export type Json =
   | string
   | number
@@ -122,6 +132,44 @@ export type Database = {
           created_at?: string;
         };
         Relationships: [];
+      };
+      church_people_dates: {
+        Row: {
+          id: string;
+          name: string;
+          date_of_birth: string | null;
+          anniversary_date: string | null;
+          created_at: string;
+          updated_at: string;
+          created_by: string | null;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          date_of_birth?: string | null;
+          anniversary_date?: string | null;
+          created_at?: string;
+          updated_at?: string;
+          created_by?: string | null;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          date_of_birth?: string | null;
+          anniversary_date?: string | null;
+          created_at?: string;
+          updated_at?: string;
+          created_by?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "church_people_dates_created_by_fkey";
+            columns: ["created_by"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          }
+        ];
       };
     };
     Views: {

@@ -6,6 +6,7 @@ import GallerySection from "@/components/GallerySection";
 import MinistriesSection from "@/components/MinistriesSection";
 import ContactSection from "@/components/ContactSection";
 import ChurchUpdates from "@/components/ChurchUpdates";
+import BirthdayAnniversarySection from "@/components/BirthdayAnniversarySection";
 import { churchUpdates } from "@/data/updates";
 
 export default function HomePage() {
@@ -14,6 +15,7 @@ export default function HomePage() {
       <Hero>
         <ChurchUpdates initialUpdates={churchUpdates} />
       </Hero>
+      <BirthdayAnniversarySection />
       <AboutSection />
       <ServiceTimes />
       <SermonsSection />

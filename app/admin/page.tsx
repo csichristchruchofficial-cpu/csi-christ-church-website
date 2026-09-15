@@ -27,7 +27,9 @@ import {
   Calendar,
   Send,
   Sparkles,
+  Cake,
 } from "lucide-react";
+import CelebrationsManager from "@/components/admin/CelebrationsManager";
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -56,6 +58,11 @@ export default function AdminDashboardPage() {
   // Active Tab for announcement list view
   const [activeTab, setActiveTab] = useState<"pending" | "approved" | "rejected">(
     "pending"
+  );
+
+  // Top-level Dashboard Section (Announcements vs Birthday & Anniversary Manager)
+  const [adminSection, setAdminSection] = useState<"announcements" | "celebrations">(
+    "announcements"
   );
 
   const fetchSubscriberCount = useCallback(async () => {
@@ -392,6 +399,38 @@ export default function AdminDashboardPage() {
       {/* 2. MAIN DASHBOARD CONTENT                                      */}
       {/* ============================================================== */}
       <main className="container-page mt-8 space-y-8">
+        {/* Dashboard Section Switcher Tabs */}
+        <div className="flex flex-wrap items-center gap-3 border-b border-white/10 pb-4">
+          <button
+            type="button"
+            onClick={() => setAdminSection("announcements")}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm transition-all ${
+              adminSection === "announcements"
+                ? "bg-royal text-white shadow-lg shadow-royal/30 scale-102"
+                : "bg-white/5 text-slate-400 hover:text-white hover:bg-white/10"
+            }`}
+          >
+            <Bell size={16} />
+            <span>திருச்சபை அறிவிப்புகள் (Announcements & Push)</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setAdminSection("celebrations")}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm transition-all ${
+              adminSection === "celebrations"
+                ? "bg-gold text-navy-950 shadow-lg shadow-gold/30 scale-102"
+                : "bg-white/5 text-slate-400 hover:text-white hover:bg-white/10"
+            }`}
+          >
+            <Cake size={16} />
+            <span>பிறந்தநாள் & திருமண நாள் மேலாளர் (Birthday & Anniversary Manager)</span>
+          </button>
+        </div>
+
+        {adminSection === "celebrations" ? (
+          <CelebrationsManager />
+        ) : (
+          <>
         {/* Banner Alert for Errors */}
         {actionError && (
           <div
@@ -788,6 +827,8 @@ export default function AdminDashboardPage() {
             </div>
           </div>
         </div>
+          </>
+        )}
       </main>
     </div>
   );
