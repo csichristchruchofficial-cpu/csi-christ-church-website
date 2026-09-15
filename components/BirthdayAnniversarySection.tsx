@@ -12,11 +12,14 @@ import {
   Gift,
   BookOpen,
   Quote,
+  Sun,
+  Sunrise,
 } from "lucide-react";
 import type { CelebrationEvent } from "@/lib/celebrations/date-utils";
 import ScrollReveal from "./ScrollReveal";
 
-type TabFilter = "all" | "today" | "birthdays" | "anniversaries";
+// Tab Filter: All (next 30 days) removed as requested. Only Today, Tomorrow, Birthdays, and Anniversaries.
+type TabFilter = "today" | "tomorrow" | "birthdays" | "anniversaries";
 
 // Curated Bible blessing verses for Birthdays
 const BIRTHDAY_VERSES = [
@@ -90,11 +93,122 @@ function getBibleVerse(id: string, name: string, type: "birthday" | "anniversary
   return verses[index];
 }
 
+// Festive Colorful Balloons Illustration for Birthday Theme
+function BirthdayBalloonsGraphic({ className = "w-14 h-16" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="balloon-red" cx="35%" cy="30%" r="70%">
+          <stop offset="0%" stopColor="#FCA5A5" />
+          <stop offset="40%" stopColor="#EF4444" />
+          <stop offset="100%" stopColor="#B91C1C" />
+        </radialGradient>
+        <radialGradient id="balloon-gold" cx="35%" cy="30%" r="70%">
+          <stop offset="0%" stopColor="#FEF08A" />
+          <stop offset="40%" stopColor="#F59E0B" />
+          <stop offset="100%" stopColor="#B45309" />
+        </radialGradient>
+        <radialGradient id="balloon-blue" cx="35%" cy="30%" r="70%">
+          <stop offset="0%" stopColor="#93C5FD" />
+          <stop offset="40%" stopColor="#3B82F6" />
+          <stop offset="100%" stopColor="#1E3A8A" />
+        </radialGradient>
+      </defs>
+
+      {/* Strings */}
+      <path d="M30 65 C32 80, 50 92, 50 108" stroke="#B45309" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
+      <path d="M70 65 C68 80, 50 92, 50 108" stroke="#1E3A8A" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
+      <path d="M50 58 C50 75, 50 90, 50 108" stroke="#B91C1C" strokeWidth="1.2" strokeLinecap="round" opacity="0.7" />
+
+      {/* Left Gold Balloon */}
+      <g>
+        <ellipse cx="32" cy="40" rx="16" ry="22" fill="url(#balloon-gold)" />
+        <ellipse cx="27" cy="33" rx="3.5" ry="7" fill="white" opacity="0.6" transform="rotate(-20 27 33)" />
+        <polygon points="30,61 34,61 32,64" fill="#B45309" />
+      </g>
+
+      {/* Right Blue Balloon */}
+      <g>
+        <ellipse cx="68" cy="40" rx="16" ry="22" fill="url(#balloon-blue)" />
+        <ellipse cx="63" cy="33" rx="3.5" ry="7" fill="white" opacity="0.6" transform="rotate(-20 63 33)" />
+        <polygon points="66,61 70,61 68,64" fill="#1E3A8A" />
+      </g>
+
+      {/* Center Front Red Balloon */}
+      <g>
+        <ellipse cx="50" cy="32" rx="18" ry="25" fill="url(#balloon-red)" />
+        <ellipse cx="44" cy="24" rx="4" ry="8" fill="white" opacity="0.7" transform="rotate(-20 44 24)" />
+        <polygon points="48,56 52,56 50,59" fill="#B91C1C" />
+      </g>
+
+      {/* Ribbon Knot */}
+      <circle cx="50" cy="108" r="2.5" fill="#D97706" />
+    </svg>
+  );
+}
+
+// Romantic Glowing Hearts Illustration for Anniversary Theme
+function AnniversaryHeartsGraphic({ className = "w-14 h-16" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="heart-red" cx="35%" cy="30%" r="70%">
+          <stop offset="0%" stopColor="#FDA4AF" />
+          <stop offset="40%" stopColor="#E11D48" />
+          <stop offset="100%" stopColor="#9F1239" />
+        </radialGradient>
+        <radialGradient id="heart-pink" cx="35%" cy="30%" r="70%">
+          <stop offset="0%" stopColor="#FECDD3" />
+          <stop offset="40%" stopColor="#FB7185" />
+          <stop offset="100%" stopColor="#BE123C" />
+        </radialGradient>
+        <radialGradient id="heart-gold" cx="35%" cy="30%" r="70%">
+          <stop offset="0%" stopColor="#FEF08A" />
+          <stop offset="40%" stopColor="#F59E0B" />
+          <stop offset="100%" stopColor="#B45309" />
+        </radialGradient>
+      </defs>
+
+      {/* Sparkles */}
+      <circle cx="20" cy="20" r="2" fill="#FDE047" opacity="0.8" />
+      <circle cx="80" cy="25" r="2.5" fill="#FDE047" opacity="0.8" />
+      <circle cx="50" cy="6" r="2" fill="#FDE047" opacity="0.8" />
+
+      {/* Ribbons */}
+      <path d="M34 62 C36 78, 50 90, 50 106" stroke="#FDA4AF" strokeWidth="1.2" strokeLinecap="round" strokeDasharray="2 2" opacity="0.7" />
+      <path d="M66 62 C64 78, 50 90, 50 106" stroke="#FDA4AF" strokeWidth="1.2" strokeLinecap="round" strokeDasharray="2 2" opacity="0.7" />
+      <path d="M50 56 C50 74, 50 88, 50 106" stroke="#E11D48" strokeWidth="1.2" strokeLinecap="round" opacity="0.7" />
+
+      {/* Left Pink Heart */}
+      <g>
+        <path d="M34 44 C20 28, 12 46, 34 64 C56 46, 48 28, 34 44 Z" fill="url(#heart-pink)" />
+        <ellipse cx="27" cy="38" rx="2.5" ry="5" fill="white" opacity="0.5" transform="rotate(-25 27 38)" />
+      </g>
+
+      {/* Right Gold Heart */}
+      <g>
+        <path d="M66 44 C52 28, 44 46, 66 64 C88 46, 80 28, 66 44 Z" fill="url(#heart-gold)" />
+        <ellipse cx="59" cy="38" rx="2.5" ry="5" fill="white" opacity="0.5" transform="rotate(-25 59 38)" />
+      </g>
+
+      {/* Center Big Heart */}
+      <g>
+        <path d="M50 24 C32 4, 18 28, 50 56 C82 28, 68 4, 50 24 Z" fill="url(#heart-red)" />
+        <ellipse cx="40" cy="18" rx="3.5" ry="7" fill="white" opacity="0.65" transform="rotate(-25 40 18)" />
+      </g>
+
+      {/* Golden Rings */}
+      <circle cx="48" cy="106" r="3.5" stroke="#F59E0B" strokeWidth="1.5" fill="none" />
+      <circle cx="53" cy="106" r="3.5" stroke="#F59E0B" strokeWidth="1.5" fill="none" />
+    </svg>
+  );
+}
+
 export default function BirthdayAnniversarySection() {
   const [birthdays, setBirthdays] = useState<CelebrationEvent[]>([]);
   const [anniversaries, setAnniversaries] = useState<CelebrationEvent[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<TabFilter>("all");
+  const [activeTab, setActiveTab] = useState<TabFilter>("today");
   const [searchQuery, setSearchQuery] = useState("");
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -119,26 +233,49 @@ export default function BirthdayAnniversarySection() {
     fetchCelebrations();
   }, []);
 
-  // Combined list sorted chronologically by date
-  const allCelebrations = useMemo(() => {
-    const list = [...birthdays, ...anniversaries];
+  // ONLY Today and Tomorrow events (daysRemaining === 0 or daysRemaining === 1)
+  const todayAndTomorrowList = useMemo(() => {
+    const list = [...birthdays, ...anniversaries].filter(
+      (item) => item.daysRemaining === 0 || item.daysRemaining === 1
+    );
     return list.sort((a, b) => a.daysRemaining - b.daysRemaining || a.name.localeCompare(b.name));
   }, [birthdays, anniversaries]);
 
-  const todayCelebrations = useMemo(() => {
-    return allCelebrations.filter((item) => item.isToday);
-  }, [allCelebrations]);
+  const todayList = useMemo(() => {
+    return todayAndTomorrowList.filter((item) => item.daysRemaining === 0);
+  }, [todayAndTomorrowList]);
+
+  const tomorrowList = useMemo(() => {
+    return todayAndTomorrowList.filter((item) => item.daysRemaining === 1);
+  }, [todayAndTomorrowList]);
+
+  const birthdayList = useMemo(() => {
+    return todayAndTomorrowList.filter((item) => item.type === "birthday");
+  }, [todayAndTomorrowList]);
+
+  const anniversaryList = useMemo(() => {
+    return todayAndTomorrowList.filter((item) => item.type === "anniversary");
+  }, [todayAndTomorrowList]);
+
+  // Adjust default tab if today has 0 celebrations but tomorrow has celebrations
+  useEffect(() => {
+    if (!loading && todayList.length === 0 && tomorrowList.length > 0 && activeTab === "today") {
+      setActiveTab("tomorrow");
+    }
+  }, [loading, todayList.length, tomorrowList.length, activeTab]);
 
   // Filtered items based on active tab and search query
   const filteredCelebrations = useMemo(() => {
-    let list = allCelebrations;
+    let list = todayList;
 
     if (activeTab === "today") {
-      list = todayCelebrations;
+      list = todayList;
+    } else if (activeTab === "tomorrow") {
+      list = tomorrowList;
     } else if (activeTab === "birthdays") {
-      list = birthdays;
+      list = birthdayList;
     } else if (activeTab === "anniversaries") {
-      list = anniversaries;
+      list = anniversaryList;
     }
 
     if (searchQuery.trim()) {
@@ -151,9 +288,7 @@ export default function BirthdayAnniversarySection() {
     }
 
     return list;
-  }, [allCelebrations, todayCelebrations, birthdays, anniversaries, activeTab, searchQuery]);
-
-  const totalCount = allCelebrations.length;
+  }, [todayList, tomorrowList, birthdayList, anniversaryList, activeTab, searchQuery]);
 
   return (
     <section
@@ -194,28 +329,14 @@ export default function BirthdayAnniversarySection() {
         </div>
 
         {/* ============================================================== */}
-        {/* 2. BLACK BOX AREA: CELEBRATION TEMPLATE CARDS & FILTERS       */}
+        {/* 2. BLACK BOX AREA: TODAY & TOMORROW LIST WITH BALLOONS/HEARTS */}
         {/* ============================================================== */}
         <div className="mt-10 max-w-6xl mx-auto">
-          {/* Controls Bar: Tabs + Search + Refresh */}
+          {/* Controls Bar: Only Today, Tomorrow, Birthdays, Anniversaries (All removed) */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             {/* Filter Tabs */}
             <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 bg-white/90 rounded-2xl border border-amber-200 shadow-sm w-full sm:w-auto">
-              <button
-                type="button"
-                onClick={() => setActiveTab("all")}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
-                  activeTab === "all"
-                    ? "bg-navy-950 text-white shadow-md scale-102"
-                    : "text-slate-600 hover:text-navy-900 hover:bg-slate-100"
-                }`}
-              >
-                <span>அனைத்தும் (All)</span>
-                <span className="ml-1 rounded-full bg-slate-200 px-2 py-0.5 text-xs text-slate-700">
-                  {totalCount}
-                </span>
-              </button>
-
+              {/* Today Tab */}
               <button
                 type="button"
                 onClick={() => setActiveTab("today")}
@@ -225,9 +346,9 @@ export default function BirthdayAnniversarySection() {
                     : "text-slate-600 hover:text-navy-900 hover:bg-slate-100"
                 }`}
               >
-                <Sparkles className="h-3.5 w-3.5" />
-                <span>இன்று (Today)</span>
-                {todayCelebrations.length > 0 && (
+                <Sun className="h-3.5 w-3.5" />
+                <span>✨ இன்று (Today)</span>
+                {todayList.length > 0 && (
                   <span className="relative flex h-2 w-2 ml-1">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
@@ -238,10 +359,28 @@ export default function BirthdayAnniversarySection() {
                     activeTab === "today" ? "bg-white/30 text-white" : "bg-rose-100 text-rose-800"
                   }`}
                 >
-                  {todayCelebrations.length}
+                  {todayList.length}
                 </span>
               </button>
 
+              {/* Tomorrow Tab */}
+              <button
+                type="button"
+                onClick={() => setActiveTab("tomorrow")}
+                className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+                  activeTab === "tomorrow"
+                    ? "bg-navy-950 text-white shadow-md scale-102"
+                    : "text-slate-600 hover:text-navy-900 hover:bg-slate-100"
+                }`}
+              >
+                <Sunrise className="h-3.5 w-3.5 text-amber-400" />
+                <span>🌅 நாளை (Tomorrow)</span>
+                <span className="ml-1 rounded-full bg-slate-200 px-2 py-0.5 text-xs text-slate-800">
+                  {tomorrowList.length}
+                </span>
+              </button>
+
+              {/* Birthdays Tab */}
               <button
                 type="button"
                 onClick={() => setActiveTab("birthdays")}
@@ -252,12 +391,13 @@ export default function BirthdayAnniversarySection() {
                 }`}
               >
                 <Cake className="h-3.5 w-3.5" />
-                <span>பிறந்தநாள் (Birthdays)</span>
+                <span>🎂 பிறந்தநாள் (Birthdays)</span>
                 <span className="ml-1 rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-900">
-                  {birthdays.length}
+                  {birthdayList.length}
                 </span>
               </button>
 
+              {/* Anniversaries Tab */}
               <button
                 type="button"
                 onClick={() => setActiveTab("anniversaries")}
@@ -268,9 +408,9 @@ export default function BirthdayAnniversarySection() {
                 }`}
               >
                 <Heart className="h-3.5 w-3.5" />
-                <span>திருமண நாள் (Anniversaries)</span>
+                <span>💐 திருமண நாள் (Anniversaries)</span>
                 <span className="ml-1 rounded-full bg-rose-100 px-2 py-0.5 text-xs text-rose-900">
-                  {anniversaries.length}
+                  {anniversaryList.length}
                 </span>
               </button>
             </div>
@@ -298,16 +438,16 @@ export default function BirthdayAnniversarySection() {
             </div>
           </div>
 
-          {/* Cards Grid / State */}
+          {/* Celebrations Grid */}
           <div className="mt-8">
             {loading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[1, 2, 3, 4, 5, 6].map((i) => (
+                {[1, 2, 3].map((i) => (
                   <div
                     key={i}
                     className="rounded-3xl border-2 border-amber-200 bg-white p-6 shadow-md animate-pulse space-y-4"
                   >
-                    <div className="h-12 bg-amber-100 rounded-2xl w-full" />
+                    <div className="h-16 bg-amber-100 rounded-2xl w-full" />
                     <div className="h-6 bg-slate-200 rounded w-3/4 mx-auto" />
                     <div className="h-4 bg-slate-100 rounded w-1/2 mx-auto" />
                     <div className="h-20 bg-amber-50 rounded-2xl w-full" />
@@ -318,13 +458,32 @@ export default function BirthdayAnniversarySection() {
               <div className="text-center py-16 px-4 rounded-3xl border-2 border-dashed border-amber-300 bg-white/80 max-w-xl mx-auto shadow-sm">
                 <Gift className="h-14 w-14 text-amber-500 mx-auto opacity-80 mb-3 animate-bounce" />
                 <h3 className="text-lg sm:text-xl font-bold text-navy-950">
-                  {searchQuery ? "பொருத்தமான நபர்கள் கிடைக்கவில்லை" : "அடுத்த 30 நாட்களில் விசேஷங்கள் இல்லை"}
+                  {searchQuery
+                    ? "பொருத்தமான நபர்கள் கிடைக்கவில்லை"
+                    : activeTab === "today"
+                    ? "இன்று விசேஷங்கள் எதுவும் இல்லை"
+                    : activeTab === "tomorrow"
+                    ? "நாளை விசேஷங்கள் எதுவும் இல்லை"
+                    : "இன்றும் நாளையும் விசேஷங்கள் எதுவும் இல்லை"}
                 </h3>
                 <p className="mt-2 text-xs sm:text-sm text-slate-500">
                   {searchQuery
-                    ? `"${searchQuery}" என்ற பெயரில் அடுத்த 30 நாட்களில் பிறந்தநாள் அல்லது திருமண நாள் விசேஷங்கள் காணப்படவில்லை.`
-                    : "அடுத்த 30 நாட்களில் திருச்சபை உறுப்பினர்களின் பிறந்தநாள் அல்லது திருமண நாள் நிகழ்வுகள் எதுவும் இல்லை."}
+                    ? `"${searchQuery}" என்ற பெயரில் விசேஷங்கள் காணப்படவில்லை.`
+                    : activeTab === "today"
+                    ? "இன்று திருச்சபை உறுப்பினர்களின் பிறந்தநாள் அல்லது திருமண நாள் நிகழ்வுகள் எதுவும் இல்லை."
+                    : activeTab === "tomorrow"
+                    ? "நாளை திருச்சபை உறுப்பினர்களின் பிறந்தநாள் அல்லது திருமண நாள் நிகழ்வுகள் எதுவும் இல்லை."
+                    : "இன்றும் நாளையும் திருச்சபை உறுப்பினர்களின் பிறந்தநாள் அல்லது திருமண நாள் விசேஷங்கள் இல்லை."}
                 </p>
+                {activeTab === "today" && tomorrowList.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("tomorrow")}
+                    className="mt-4 px-4 py-2 rounded-xl text-xs font-bold text-navy-950 bg-amber-400 hover:bg-amber-300 shadow transition-all"
+                  >
+                    🌅 நாளை கொண்டாடுபவர்களைப் பார்க்க ({tomorrowList.length} நபர்கள்)
+                  </button>
+                )}
                 {searchQuery && (
                   <button
                     type="button"
@@ -350,7 +509,7 @@ export default function BirthdayAnniversarySection() {
                       className="h-full"
                     >
                       {/* ==================================================== */}
-                      {/* GREETING CARD TEMPLATE (Birthday / Anniversary Theme) */}
+                      {/* GREETING CARD TEMPLATE (Balloons for Bday, Hearts for Anni) */}
                       {/* ==================================================== */}
                       <article
                         className={`relative flex flex-col justify-between h-full rounded-3xl overflow-hidden transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl ${
@@ -366,15 +525,15 @@ export default function BirthdayAnniversarySection() {
                             : "linear-gradient(180deg, #FFFDFC 0%, #FFF1F2 40%, #FFFFFF 100%)",
                         }}
                       >
-                        {/* Decorative Festive Header Banner with SVG Graphics */}
+                        {/* Decorative Top Banner with Balloons / Hearts */}
                         <div
-                          className={`relative px-5 pt-5 pb-4 text-center overflow-hidden ${
+                          className={`relative px-5 pt-4 pb-3 text-center overflow-hidden ${
                             isBday
                               ? "bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 text-amber-950"
                               : "bg-gradient-to-r from-rose-600 via-pink-500 to-rose-600 text-white"
                           }`}
                         >
-                          {/* Festive Sparkles & Confetti Background Graphic */}
+                          {/* Festive Pattern Background */}
                           <div className="absolute inset-0 pointer-events-none opacity-20">
                             <svg className="w-full h-full" viewBox="0 0 300 80" preserveAspectRatio="none">
                               <circle cx="20" cy="20" r="3" fill="currentColor" />
@@ -383,48 +542,70 @@ export default function BirthdayAnniversarySection() {
                               <circle cx="180" cy="45" r="3" fill="currentColor" />
                               <circle cx="240" cy="25" r="2.5" fill="currentColor" />
                               <circle cx="280" cy="60" r="3" fill="currentColor" />
-                              <polygon points="40,30 43,38 52,38 45,43 48,51 40,46 32,51 35,43 28,38 37,38" fill="currentColor" />
-                              <polygon points="260,15 262,20 268,20 263,24 265,29 260,26 255,29 257,24 252,20 258,20" fill="currentColor" />
                             </svg>
                           </div>
 
-                          {/* Celebration Title & Icon */}
-                          <div className="relative z-10 flex items-center justify-center gap-2">
-                            {isBday ? (
-                              <>
-                                <Cake className="h-5 w-5 animate-bounce" />
-                                <span className="text-xs sm:text-sm font-black uppercase tracking-wider">
-                                  பிறந்தநாள் வாழ்த்துக்கள் • Birthday
-                                </span>
-                              </>
-                            ) : (
-                              <>
-                                <Heart className="h-5 w-5 fill-current animate-pulse" />
-                                <span className="text-xs sm:text-sm font-black uppercase tracking-wider">
-                                  திருமண நாள் வாழ்த்துக்கள் • Anniversary
-                                </span>
-                              </>
-                            )}
-                          </div>
+                          {/* Balloons Graphic for Birthday / Hearts Graphic for Anniversary */}
+                          <div className="relative z-10 flex items-center justify-between gap-3">
+                            {/* Left Graphic */}
+                            <div className="shrink-0">
+                              {isBday ? (
+                                <BirthdayBalloonsGraphic className="w-12 h-14 drop-shadow-sm" />
+                              ) : (
+                                <AnniversaryHeartsGraphic className="w-12 h-14 drop-shadow-sm" />
+                              )}
+                            </div>
 
-                          {/* Today Badge or Days Remaining Pill */}
-                          <div className="relative z-10 mt-2 flex justify-center">
-                            {isToday ? (
-                              <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-0.5 text-xs font-black text-rose-600 shadow-md animate-pulse">
-                                <Sparkles className="h-3.5 w-3.5 text-amber-500" />
-                                {isBday ? "🎉 இன்று பிறந்தநாள்!" : "💐 இன்று திருமண நாள்!"}
-                              </span>
-                            ) : (
-                              <span
-                                className={`inline-flex items-center gap-1 rounded-full px-3 py-0.5 text-[11px] font-bold ${
-                                  isBday
-                                    ? "bg-amber-900/15 text-amber-950"
-                                    : "bg-white/20 text-white"
-                                }`}
-                              >
-                                <span>{item.daysRemainingText}</span>
-                              </span>
-                            )}
+                            {/* Center Title & Badge */}
+                            <div className="flex-1 text-center">
+                              <div className="flex items-center justify-center gap-1.5">
+                                {isBday ? (
+                                  <>
+                                    <Cake className="h-4 w-4 animate-bounce" />
+                                    <span className="text-xs sm:text-sm font-black uppercase tracking-wider">
+                                      பிறந்தநாள் • Birthday
+                                    </span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Heart className="h-4 w-4 fill-current animate-pulse" />
+                                    <span className="text-xs sm:text-sm font-black uppercase tracking-wider">
+                                      திருமண நாள் • Anniversary
+                                    </span>
+                                  </>
+                                )}
+                              </div>
+
+                              {/* Today / Tomorrow Badge */}
+                              <div className="mt-1.5 flex justify-center">
+                                {isToday ? (
+                                  <span className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-0.5 text-[11px] font-black text-rose-600 shadow-md animate-pulse">
+                                    <Sparkles className="h-3 w-3 text-amber-500" />
+                                    {isBday ? "🎉 இன்று பிறந்தநாள்!" : "💐 இன்று திருமண நாள்!"}
+                                  </span>
+                                ) : (
+                                  <span
+                                    className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-bold ${
+                                      isBday
+                                        ? "bg-amber-900/15 text-amber-950"
+                                        : "bg-white/20 text-white"
+                                    }`}
+                                  >
+                                    <Sunrise className="h-3 w-3" />
+                                    <span>நாளை (Tomorrow)</span>
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Right Graphic Mirror */}
+                            <div className="shrink-0 transform scale-x-[-1]">
+                              {isBday ? (
+                                <BirthdayBalloonsGraphic className="w-12 h-14 drop-shadow-sm" />
+                              ) : (
+                                <AnniversaryHeartsGraphic className="w-12 h-14 drop-shadow-sm" />
+                              )}
+                            </div>
                           </div>
                         </div>
 
