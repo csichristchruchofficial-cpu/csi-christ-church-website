@@ -1,10 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
+import { ReactNode } from "react";
 import { churchInfo } from "@/data/church";
 import { Sparkles, Calendar, HeartHandshake, ArrowRight } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 
-export default function Hero() {
+type HeroProps = {
+  children?: ReactNode;
+};
+
+export default function Hero({ children }: HeroProps) {
   return (
     <section className="relative flex min-h-[92vh] items-center overflow-hidden bg-navy-950">
       {/* Background Church Photo */}
@@ -23,7 +28,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-radial-at-c from-transparent via-royal-dark/30 to-navy-950/80 mix-blend-multiply" />
       <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gold/15 blur-[100px] rounded-full pointer-events-none" />
 
-      <div className="container-page relative z-10 py-20 text-center">
+      <div className="container-page relative z-10 py-16 sm:py-20 text-center">
         {/* Colorful Floating Badge */}
         <div className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-navy-900/80 px-4 py-1.5 shadow-lg backdrop-blur-md animate-float-gentle">
           <Sparkles className="h-4 w-4 text-gold-light" />
@@ -77,7 +82,7 @@ export default function Hero() {
         </div>
 
         {/* Highlights Bar with Pop Scroll Reveal */}
-        <ScrollReveal direction="pop" delay={250} className="mt-14">
+        <ScrollReveal direction="pop" delay={250} className="mt-10 sm:mt-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto">
             <div className="flex items-center justify-center gap-3 rounded-2xl bg-white/10 p-3.5 backdrop-blur-md border border-white/15 text-white shadow-sm hover:border-gold/40 transition-colors">
               <Calendar className="h-5 w-5 text-gold-light" />
@@ -89,6 +94,9 @@ export default function Hero() {
             </div>
           </div>
         </ScrollReveal>
+
+        {/* Live Church Updates (Placed right inside the Hero banner as requested) */}
+        {children}
       </div>
     </section>
   );

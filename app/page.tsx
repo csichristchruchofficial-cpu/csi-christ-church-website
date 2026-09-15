@@ -11,10 +11,11 @@ import { churchUpdates } from "@/data/updates";
 export default function HomePage() {
   return (
     <>
-      <Hero />
+      <Hero>
+        <ChurchUpdates initialUpdates={churchUpdates} />
+      </Hero>
       <AboutSection />
       <ServiceTimes />
-      <ChurchUpdates initialUpdates={churchUpdates} />
       <SermonsSection />
       <MinistriesSection />
       <EventsSection />
