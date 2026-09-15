@@ -12,9 +12,17 @@ type ImportPayload = {
   }>;
 };
 
+type ChurchPerson = {
+  id: string;
+  name: string;
+  date_of_birth: string | null;
+  anniversary_date: string | null;
+};
+
 /**
  * POST /api/admin/celebrations/import
  * Bulk imports parsed Excel birthdays or anniversaries with intelligent merge by person name.
+ * Handles large datasets (>1000 records) and prevents in-file duplicates from failing.
  */
 export async function POST(request: Request) {
   const auth = await verifyAdminSession();
@@ -40,21 +48,40 @@ export async function POST(request: Request) {
       );
     }
 
-    // Fetch existing records for merging by name
-    const { data: existingRecords, error: fetchErr } = await auth.supabase
-      .from("church_people_dates")
-      .select("id, name, date_of_birth, anniversary_date");
+    // Fetch existing records for merging by name in batches of 1000
+    let existingRecords: ChurchPerson[] = [];
+    let from = 0;
+    const step = 1000;
+    let hasMore = true;
 
-    if (fetchErr) {
-      return NextResponse.json(
-        { error: "Failed to access database: " + fetchErr.message },
-        { status: 500 }
-      );
+    while (hasMore) {
+      const { data, error: fetchErr } = await auth.supabase
+        .from("church_people_dates")
+        .select("id, name, date_of_birth, anniversary_date")
+        .range(from, from + step - 1);
+
+      if (fetchErr) {
+        return NextResponse.json(
+          { error: "Failed to access database: " + fetchErr.message },
+          { status: 500 }
+        );
+      }
+
+      if (data && data.length > 0) {
+        existingRecords = existingRecords.concat(data as ChurchPerson[]);
+        if (data.length < step) {
+          hasMore = false;
+        } else {
+          from += step;
+        }
+      } else {
+        hasMore = false;
+      }
     }
 
     // Map existing names (normalized for case and whitespace) to records
-    const recordMap = new Map<string, (typeof existingRecords)[number]>();
-    for (const rec of existingRecords || []) {
+    const recordMap = new Map<string, ChurchPerson>();
+    for (const rec of existingRecords) {
       const key = rec.name.trim().toLowerCase();
       recordMap.set(key, rec);
     }
@@ -63,12 +90,12 @@ export async function POST(request: Request) {
     let updatedCount = 0;
     let skippedCount = 0;
 
-    const toInsert: Array<{
+    const toInsertMap = new Map<string, {
       name: string;
       date_of_birth: string | null;
       anniversary_date: string | null;
       created_by: string;
-    }> = [];
+    }>();
 
     const toUpdate: Array<{
       id: string;
@@ -94,7 +121,7 @@ export async function POST(request: Request) {
       const existing = recordMap.get(key);
 
       if (existing) {
-        // Record exists: update the corresponding date field
+        // Record exists in database: update the corresponding date field
         const updateObj: {
           id: string;
           date_of_birth?: string | null;
@@ -107,33 +134,37 @@ export async function POST(request: Request) {
 
         if (type === "birthday") {
           updateObj.date_of_birth = parsedDate;
-          existing.date_of_birth = parsedDate; // update in-memory
+          existing.date_of_birth = parsedDate;
         } else {
           updateObj.anniversary_date = parsedDate;
-          existing.anniversary_date = parsedDate; // update in-memory
+          existing.anniversary_date = parsedDate;
         }
 
         toUpdate.push(updateObj);
         updatedCount++;
+      } else if (toInsertMap.has(key)) {
+        // Already queued for insertion in this same batch
+        const queued = toInsertMap.get(key)!;
+        if (type === "birthday") {
+          queued.date_of_birth = parsedDate;
+        } else {
+          queued.anniversary_date = parsedDate;
+        }
+        updatedCount++;
       } else {
         // New record: create
-        toInsert.push({
+        const newRecord = {
           name: rawName,
           date_of_birth: type === "birthday" ? parsedDate : null,
           anniversary_date: type === "anniversary" ? parsedDate : null,
           created_by: auth.user.id,
-        });
-
-        // Add to map so subsequent duplicates in the same file merge
-        recordMap.set(key, {
-          id: "pending",
-          name: rawName,
-          date_of_birth: type === "birthday" ? parsedDate : null,
-          anniversary_date: type === "anniversary" ? parsedDate : null,
-        });
+        };
+        toInsertMap.set(key, newRecord);
         importedCount++;
       }
     }
+
+    const toInsert = Array.from(toInsertMap.values());
 
     // Execute bulk inserts in chunks of 200
     if (toInsert.length > 0) {
@@ -173,4 +204,3 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-

@@ -205,7 +205,7 @@ export default function CelebrationsManager() {
         type: importType,
         items: previewItems.map((item) => ({
           name: item.name,
-          date: item.rawDate,
+          date: item.parsedDate || item.rawDate,
         })),
       };
 
