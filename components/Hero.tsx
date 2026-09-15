@@ -2,14 +2,64 @@ import Link from "next/link";
 import Image from "next/image";
 import { ReactNode } from "react";
 import { churchInfo } from "@/data/church";
-import { Sparkles, Calendar, HeartHandshake, ArrowRight } from "lucide-react";
+import { Sparkles, Calendar, ArrowRight } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 
 type HeroProps = {
   children?: ReactNode;
 };
 
+// Calculates the upcoming Sunday date and corresponding Order of Service
+function getUpcomingSundayOrder() {
+  const now = new Date();
+  const day = now.getDay(); // 0 = Sun, 1 = Mon, ...
+  const diffToSunday = day === 0 ? 0 : 7 - day;
+  const sunday = new Date(now);
+  sunday.setDate(now.getDate() + diffToSunday);
+
+  const dateNum = sunday.getDate();
+  const weekNum = Math.min(5, Math.ceil(dateNum / 7));
+
+  const orders: Record<number, { titleTa: string; titleEn: string }> = {
+    1: {
+      titleTa: "திருவிருந்து ஆராதனை",
+      titleEn: "Communion Service",
+    },
+    2: {
+      titleTa: "வழக்கமான தேவ ஆராதனை",
+      titleEn: "Regular Service",
+    },
+    3: {
+      titleTa: "திருவிருந்து ஆராதனை (ஆங்கிலிக்கன் முறை)",
+      titleEn: "Anglican Order Communion",
+    },
+    4: {
+      titleTa: "துதி மற்றும் ஆராதனை",
+      titleEn: "Worship Service",
+    },
+    5: {
+      titleTa: "வழக்கமான தேவ ஆராதனை",
+      titleEn: "Regular Service",
+    },
+  };
+
+  const monthNamesTa = [
+    "ஜனவரி", "பிப்ரவரி", "மார்ச்", "ஏப்ரல்", "மே", "ஜூன்",
+    "ஜூலை", "ஆகஸ்ட்", "செப்டம்பர்", "அக்டோபர்", "நவம்பர்", "டிசம்பர்"
+  ];
+  const dateStr = `${sunday.getDate()} ${monthNamesTa[sunday.getMonth()]}`;
+
+  return {
+    isTodaySunday: day === 0,
+    dateStr,
+    weekNum,
+    order: orders[weekNum] || orders[2],
+  };
+}
+
 export default function Hero({ children }: HeroProps) {
+  const sundayInfo = getUpcomingSundayOrder();
+
   return (
     <section className="relative flex min-h-[92vh] items-center overflow-hidden bg-navy-950">
       {/* Background Church Photo */}
@@ -81,21 +131,45 @@ export default function Hero({ children }: HeroProps) {
           </div>
         </div>
 
-        {/* Highlights Bar with Pop Scroll Reveal */}
+        {/* Order of Service Updates Banner (Replaces previous greeting card as requested) */}
         <ScrollReveal direction="pop" delay={250} className="mt-10 sm:mt-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto">
-            <div className="flex items-center justify-center gap-3 rounded-2xl bg-white/10 p-3.5 backdrop-blur-md border border-white/15 text-white shadow-sm hover:border-gold/40 transition-colors">
-              <Calendar className="h-5 w-5 text-gold-light" />
-              <span className="text-sm font-semibold">ஞாயிறு ஆராதனை: காலை 09:00 - 11:30</span>
+          <Link
+            href="#services"
+            className="group block max-w-2xl mx-auto rounded-2xl bg-white/10 hover:bg-white/15 p-3.5 sm:p-4 backdrop-blur-md border border-white/15 hover:border-gold/50 shadow-lg transition-all"
+          >
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gold/20 text-gold-light border border-gold/30">
+                  <Calendar className="h-5 w-5" />
+                </div>
+                <div>
+                  <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                    <span className="text-xs sm:text-sm font-bold text-white">
+                      ஞாயிறு ஆராதனை: காலை 09:00 - 11:30
+                    </span>
+                    <span className="rounded-full bg-gold/20 px-2.5 py-0.5 text-[10px] sm:text-xs font-bold text-gold-light border border-gold/30">
+                      {sundayInfo.isTodaySunday ? "இன்று (Today)" : `அடுத்த ஞாயிறு (${sundayInfo.dateStr})`}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-xs sm:text-sm text-slate-200 flex flex-wrap items-center justify-center sm:justify-start gap-1.5">
+                    <Sparkles className="h-3.5 w-3.5 text-gold-light shrink-0" />
+                    <span className="text-slate-300">ஆராதனை ஒழுங்கு (Order of Service):</span>
+                    <strong className="text-gold-light underline decoration-gold/40 underline-offset-2 font-bold">
+                      {sundayInfo.order.titleTa}
+                    </strong>
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1 text-xs font-bold text-gold-light group-hover:translate-x-1 transition-transform shrink-0">
+                <span>விபரம் (Details)</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </div>
             </div>
-            <div className="flex items-center justify-center gap-3 rounded-2xl bg-white/10 p-3.5 backdrop-blur-md border border-white/15 text-white shadow-sm hover:border-crimson/40 transition-colors">
-              <HeartHandshake className="h-5 w-5 text-crimson-light" />
-              <span className="text-sm font-semibold">அனைவரையும் அன்புடன் அழைக்கிறோம்</span>
-            </div>
-          </div>
+          </Link>
         </ScrollReveal>
 
-        {/* Live Church Updates (Placed right inside the Hero banner as requested) */}
+        {/* Live Church Updates */}
         {children}
       </div>
     </section>
