@@ -133,6 +133,15 @@ CREATE POLICY "Anyone can remove their push subscription"
   TO anon, authenticated
   USING (true);
 
+-- Allow anyone to update/refresh their own push subscription (needed for upsert)
+DROP POLICY IF EXISTS "Anyone can update push subscription" ON public.push_subscriptions;
+CREATE POLICY "Anyone can update push subscription"
+  ON public.push_subscriptions
+  FOR UPDATE
+  TO anon, authenticated
+  USING (true)
+  WITH CHECK (true);
+
 -- Admins can view all subscriptions (for subscriber count & broadcasting)
 DROP POLICY IF EXISTS "Admins can view push subscriptions" ON public.push_subscriptions;
 CREATE POLICY "Admins can view push subscriptions"

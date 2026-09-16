@@ -144,14 +144,14 @@ export default function Header() {
               </div>
             </div>
 
-            {/* JOIN US Button */}
+            {/* ABOUT US Button (Replaced Join Us) */}
             <Link
-              href="/contact"
+              href="/about"
               className="btn-primary !py-1.5 !px-2.5 sm:!py-2 sm:!px-5 !text-[11px] sm:!text-sm font-bold shadow-sm hover:shadow-glow-gold/30 transition-all shrink-0"
             >
-              <span className="church-name-ta-source">இணையுங்கள்</span>
-              <span className="church-name-en-override notranslate" translate="no">Join Us</span>
-              <span className="hidden sm:inline text-xs font-semibold opacity-90 notranslate" translate="no"> (Join Us)</span>
+              <span className="church-name-ta-source">எங்களை பற்றி</span>
+              <span className="church-name-en-override notranslate" translate="no">About Us</span>
+              <span className="hidden sm:inline text-xs font-semibold opacity-90 notranslate" translate="no"> (About)</span>
             </Link>
 
             {/* Receive Notification Option (Replaces Mobile Menu) */}

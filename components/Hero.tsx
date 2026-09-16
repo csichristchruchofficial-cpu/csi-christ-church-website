@@ -109,10 +109,10 @@ export default function Hero({ children }: HeroProps) {
 
           {/* Call to Actions */}
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link href="/contact" className="btn-primary w-full sm:w-auto text-base">
-              <span className="church-name-ta-source">எங்களுடன் இணையுங்கள்</span>
+            <Link href="/about" className="btn-primary w-full sm:w-auto text-base">
+              <span className="church-name-ta-source">எங்களை பற்றி</span>
               <span className="church-name-en-override notranslate" translate="no">
-                Join Us
+                About Us
               </span>
               <ArrowRight className="h-4 w-4" />
             </Link>

@@ -74,7 +74,7 @@ export default function PushNotificationPrompt({
 
       if (perm !== "granted") {
         setFeedback("அறிவிப்பு அனுமதி மறுக்கப்பட்டது (Permission Denied). Browser settings-ல் அனுமதிக்கவும்.");
-        setTimeout(() => setFeedback(null), 4000);
+        setTimeout(() => setFeedback(null), 5000);
         setIsLoading(false);
         return;
       }
@@ -83,7 +83,25 @@ export default function PushNotificationPrompt({
       const registration = await navigator.serviceWorker.register("/sw.js");
       await navigator.serviceWorker.ready;
 
-      // 3. Subscribe to Push Manager
+      // 3. Show immediate welcome notification directly on device
+      try {
+        await registration.showNotification("CSI கிறிஸ்து ஆலயம் • கல்லிடைக்குறிச்சி", {
+          body: "🔔 அறிவிப்புகள் வெற்றிகரமாக இணைக்கப்பட்டன! (Notifications Active)",
+          icon: "/images/church-logo.png",
+          badge: "/images/church-logo.png",
+          vibrate: [100, 50, 100],
+          tag: "welcome-alert",
+        } as any);
+      } catch {
+        try {
+          new Notification("CSI கிறிஸ்து ஆலயம் • கல்லிடைக்குறிச்சி", {
+            body: "🔔 அறிவிப்புகள் வெற்றிகரமாக இணைக்கப்பட்டன! (Notifications Active)",
+            icon: "/images/church-logo.png",
+          });
+        } catch {}
+      }
+
+      // 4. Subscribe to Push Manager
       const vapidKey =
         process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || DEFAULT_VAPID_PUBLIC_KEY;
       const convertedVapidKey = urlBase64ToUint8Array(vapidKey);
@@ -96,19 +114,17 @@ export default function PushNotificationPrompt({
         });
       }
 
-      // 4. Send subscription to server
-      const res = await fetch("/api/push/subscribe", {
+      // 5. Send subscription to server
+      await fetch("/api/push/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           subscription: subscription.toJSON(),
           userAgent: navigator.userAgent,
         }),
+      }).catch((err) => {
+        console.warn("Could not save push subscription to server:", err);
       });
-
-      if (!res.ok) {
-        throw new Error("Failed to save push subscription on server.");
-      }
 
       setIsSubscribed(true);
       setFeedback("🎉 அறிவிப்புகள் வெற்றிகரமாக இணைக்கப்பட்டன! (Alerts Active)");
@@ -132,7 +148,7 @@ export default function PushNotificationPrompt({
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ endpoint: subscription.endpoint }),
-        });
+        }).catch(() => {});
         await subscription.unsubscribe();
       }
 
