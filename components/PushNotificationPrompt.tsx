@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Bell, BellOff, BellRing, Check, Loader2 } from "lucide-react";
+import { Bell, BellOff, BellRing, Check, Loader2, Sparkles } from "lucide-react";
 
 function urlBase64ToUint8Array(base64String: string) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -22,7 +22,7 @@ const DEFAULT_VAPID_PUBLIC_KEY =
   "BBZwHUayMFbFZt0CVXxHGAedTyasB_fJmGIMIxC3VE3aQYpG-ilXlGBG0WEg1B4sDMPv5SEOTzhk6WaZJgaCUA4";
 
 type PushPromptProps = {
-  variant?: "pill" | "button" | "card";
+  variant?: "pill" | "button" | "card" | "header";
   className?: string;
 };
 
@@ -35,8 +35,10 @@ export default function PushNotificationPrompt({
   const [isLoading, setIsLoading] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     if (
       typeof window !== "undefined" &&
       "serviceWorker" in navigator &&
@@ -57,7 +59,11 @@ export default function PushNotificationPrompt({
   }, []);
 
   async function handleSubscribe() {
-    if (!isSupported) return;
+    if (!isSupported) {
+      setFeedback("உங்கள் உலாவியில் அறிவிப்புகள் ஆதரிக்கப்படவில்லை (Notifications not supported in this browser).");
+      setTimeout(() => setFeedback(null), 4000);
+      return;
+    }
     setIsLoading(true);
     setFeedback(null);
 
@@ -67,7 +73,8 @@ export default function PushNotificationPrompt({
       setPermission(perm);
 
       if (perm !== "granted") {
-        setFeedback("Notification permission was denied.");
+        setFeedback("அறிவிப்பு அனுமதி மறுக்கப்பட்டது (Permission Denied). Browser settings-ல் அனுமதிக்கவும்.");
+        setTimeout(() => setFeedback(null), 4000);
         setIsLoading(false);
         return;
       }
@@ -104,10 +111,11 @@ export default function PushNotificationPrompt({
       }
 
       setIsSubscribed(true);
-      setFeedback("அறிவிப்புகள் வெற்றிகரமாக இணைக்கப்பட்டன! (Alerts Active)");
+      setFeedback("🎉 அறிவிப்புகள் வெற்றிகரமாக இணைக்கப்பட்டன! (Alerts Active)");
       setTimeout(() => setFeedback(null), 4000);
     } catch (err: any) {
-      setFeedback(err?.message || "Could not enable notifications.");
+      setFeedback(err?.message || "அறிவிப்புகளை இணைக்க முடியவில்லை.");
+      setTimeout(() => setFeedback(null), 4000);
     } finally {
       setIsLoading(false);
     }
@@ -133,16 +141,91 @@ export default function PushNotificationPrompt({
       setTimeout(() => setFeedback(null), 4000);
     } catch (err: any) {
       setFeedback("Error unsubscribing.");
+      setTimeout(() => setFeedback(null), 4000);
     } finally {
       setIsLoading(false);
     }
   }
 
-  if (!isSupported) {
-    return null; // Gracefully hide on incompatible browsers
+  // Variant: Header (used in main header right controls across mobile & desktop)
+  if (variant === "header") {
+    return (
+      <div className="relative inline-flex items-center">
+        <button
+          type="button"
+          onClick={isSubscribed ? handleUnsubscribe : handleSubscribe}
+          disabled={isLoading}
+          className={`relative flex items-center gap-1.5 rounded-2xl px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs font-black transition-all shadow-md active:scale-95 shrink-0 ${
+            isSubscribed
+              ? "bg-emerald-950 text-emerald-300 border-2 border-emerald-400 ring-2 ring-emerald-400/30 hover:bg-emerald-900 shadow-emerald-500/20"
+              : permission === "denied"
+              ? "bg-slate-800 text-slate-400 border-2 border-slate-600 hover:bg-slate-700 shadow-sm"
+              : "bg-navy-950 text-gold-light border-2 border-gold ring-2 ring-gold/40 hover:bg-royal hover:text-white shadow-gold/25"
+          } ${className}`}
+          title={
+            isSubscribed
+              ? "அறிவிப்புகள் இயக்கப்பட்டுள்ளன (Click to unsubscribe)"
+              : permission === "denied"
+              ? "Browser settings-ல் அறிவிப்புகள் முடக்கப்பட்டுள்ளன"
+              : "திருச்சபை அறிவிப்புகளை போனில் உடனுக்குடன் பெறவும் (Receive Notifications)"
+          }
+        >
+          {isLoading ? (
+            <Loader2 className="h-4 w-4 animate-spin text-gold shrink-0" />
+          ) : isSubscribed ? (
+            <BellRing className="h-4 w-4 text-emerald-400 shrink-0 animate-pulse" />
+          ) : permission === "denied" ? (
+            <BellOff className="h-4 w-4 text-slate-400 shrink-0" />
+          ) : (
+            <Bell className="h-4 w-4 text-gold shrink-0 animate-bounce" />
+          )}
+
+          <span className="tracking-wide whitespace-nowrap">
+            {isLoading ? (
+              "இணைக்கிறது..."
+            ) : isSubscribed ? (
+              <>
+                <span className="church-name-ta-source">அறிவிப்புகள் On</span>
+                <span className="church-name-en-override notranslate" translate="no">Alerts On</span>
+              </>
+            ) : permission === "denied" ? (
+              <>
+                <span className="church-name-ta-source">முடக்கப்பட்டது</span>
+                <span className="church-name-en-override notranslate" translate="no">Blocked</span>
+              </>
+            ) : (
+              <>
+                <span className="church-name-ta-source">அறிவிப்பு பெற</span>
+                <span className="church-name-en-override notranslate" translate="no">Get Alerts</span>
+              </>
+            )}
+          </span>
+
+          {/* Live indicator dot when not subscribed */}
+          {mounted && !isSubscribed && permission !== "denied" && !isLoading && (
+            <span className="relative flex h-2 w-2 ml-0.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-gold"></span>
+            </span>
+          )}
+        </button>
+
+        {/* Floating Toast Notification Feedback */}
+        {feedback && (
+          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 rounded-2xl bg-navy-950/98 border-2 border-gold px-4 py-3 text-xs sm:text-sm font-bold text-white shadow-2xl backdrop-blur-md max-w-[90vw] text-center animate-bounce">
+            <Sparkles className="h-4 w-4 text-gold shrink-0" />
+            <span>{feedback}</span>
+          </div>
+        )}
+      </div>
+    );
   }
 
-  // Variant: Button (used in Header or quick bar)
+  if (!isSupported) {
+    return null; // Gracefully hide pill/button on incompatible browsers
+  }
+
+  // Variant: Button (used in quick bar or actions)
   if (variant === "button") {
     return (
       <button

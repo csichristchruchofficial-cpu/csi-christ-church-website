@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import MobileMenu from "./MobileMenu";
 import { churchInfo, navLinks } from "@/data/church";
 import { Phone, Clock, ArrowUp } from "lucide-react";
 import PushNotificationPrompt from "./PushNotificationPrompt";
@@ -135,7 +134,7 @@ export default function Header() {
           </Link>
 
           {/* Main Header Right Controls */}
-          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             {/* Quick Worship Timing Hint (Desktop only) */}
             <div className="hidden md:flex items-center gap-2.5 rounded-2xl bg-amber-50/70 border border-amber-200/80 px-3.5 py-1.5 text-xs">
               <Clock size={15} className="text-gold-dark shrink-0" />
@@ -145,21 +144,18 @@ export default function Header() {
               </div>
             </div>
 
-            {/* Push Notification Alerts Toggle */}
-            <PushNotificationPrompt variant="button" className="hidden sm:inline-flex" />
-
             {/* JOIN US Button */}
             <Link
               href="/contact"
-              className="btn-primary !py-2 !px-3.5 sm:!py-2.5 sm:!px-6 !text-xs sm:!text-sm font-bold shadow-sm hover:shadow-glow-gold/30 transition-all"
+              className="btn-primary !py-1.5 !px-3 sm:!py-2.5 sm:!px-6 !text-xs sm:!text-sm font-bold shadow-sm hover:shadow-glow-gold/30 transition-all shrink-0"
             >
               <span className="church-name-ta-source">இணையுங்கள்</span>
               <span className="church-name-en-override notranslate" translate="no">Join Us</span>
               <span className="hidden sm:inline text-xs font-semibold opacity-90 notranslate" translate="no"> (Join Us)</span>
             </Link>
 
-            {/* Mobile Hamburger Menu Component */}
-            <MobileMenu />
+            {/* Receive Notification Option (Replaces Mobile Menu) */}
+            <PushNotificationPrompt variant="header" />
           </div>
         </div>
       </div>
