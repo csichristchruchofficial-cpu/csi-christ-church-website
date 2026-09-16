@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import {
   Cake,
   Heart,
@@ -14,11 +14,12 @@ import {
   Quote,
   Sun,
   Sunrise,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import type { CelebrationEvent } from "@/lib/celebrations/date-utils";
-import ScrollReveal from "./ScrollReveal";
 
-// Tab Filter: All (next 30 days) removed as requested. Only Today, Tomorrow, Birthdays, and Anniversaries.
+// Tab Filter: Today, Tomorrow, Birthdays, and Anniversaries.
 type TabFilter = "today" | "tomorrow" | "birthdays" | "anniversaries";
 
 // Curated Bible blessing verses for Birthdays
@@ -98,17 +99,17 @@ function BirthdayBalloonsGraphic({ className = "w-14 h-16" }: { className?: stri
   return (
     <svg className={className} viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient id="balloon-red" cx="35%" cy="30%" r="70%">
+        <radialGradient id="bday-balloon-red" cx="35%" cy="30%" r="70%">
           <stop offset="0%" stopColor="#FCA5A5" />
           <stop offset="40%" stopColor="#EF4444" />
           <stop offset="100%" stopColor="#B91C1C" />
         </radialGradient>
-        <radialGradient id="balloon-gold" cx="35%" cy="30%" r="70%">
+        <radialGradient id="bday-balloon-gold" cx="35%" cy="30%" r="70%">
           <stop offset="0%" stopColor="#FEF08A" />
           <stop offset="40%" stopColor="#F59E0B" />
           <stop offset="100%" stopColor="#B45309" />
         </radialGradient>
-        <radialGradient id="balloon-blue" cx="35%" cy="30%" r="70%">
+        <radialGradient id="bday-balloon-blue" cx="35%" cy="30%" r="70%">
           <stop offset="0%" stopColor="#93C5FD" />
           <stop offset="40%" stopColor="#3B82F6" />
           <stop offset="100%" stopColor="#1E3A8A" />
@@ -122,21 +123,21 @@ function BirthdayBalloonsGraphic({ className = "w-14 h-16" }: { className?: stri
 
       {/* Left Gold Balloon */}
       <g>
-        <ellipse cx="32" cy="40" rx="16" ry="22" fill="url(#balloon-gold)" />
+        <ellipse cx="32" cy="40" rx="16" ry="22" fill="url(#bday-balloon-gold)" />
         <ellipse cx="27" cy="33" rx="3.5" ry="7" fill="white" opacity="0.6" transform="rotate(-20 27 33)" />
         <polygon points="30,61 34,61 32,64" fill="#B45309" />
       </g>
 
       {/* Right Blue Balloon */}
       <g>
-        <ellipse cx="68" cy="40" rx="16" ry="22" fill="url(#balloon-blue)" />
+        <ellipse cx="68" cy="40" rx="16" ry="22" fill="url(#bday-balloon-blue)" />
         <ellipse cx="63" cy="33" rx="3.5" ry="7" fill="white" opacity="0.6" transform="rotate(-20 63 33)" />
         <polygon points="66,61 70,61 68,64" fill="#1E3A8A" />
       </g>
 
       {/* Center Front Red Balloon */}
       <g>
-        <ellipse cx="50" cy="32" rx="18" ry="25" fill="url(#balloon-red)" />
+        <ellipse cx="50" cy="32" rx="18" ry="25" fill="url(#bday-balloon-red)" />
         <ellipse cx="44" cy="24" rx="4" ry="8" fill="white" opacity="0.7" transform="rotate(-20 44 24)" />
         <polygon points="48,56 52,56 50,59" fill="#B91C1C" />
       </g>
@@ -152,17 +153,17 @@ function AnniversaryHeartsGraphic({ className = "w-14 h-16" }: { className?: str
   return (
     <svg className={className} viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient id="heart-red" cx="35%" cy="30%" r="70%">
+        <radialGradient id="anni-heart-red" cx="35%" cy="30%" r="70%">
           <stop offset="0%" stopColor="#FDA4AF" />
           <stop offset="40%" stopColor="#E11D48" />
           <stop offset="100%" stopColor="#9F1239" />
         </radialGradient>
-        <radialGradient id="heart-pink" cx="35%" cy="30%" r="70%">
+        <radialGradient id="anni-heart-pink" cx="35%" cy="30%" r="70%">
           <stop offset="0%" stopColor="#FECDD3" />
           <stop offset="40%" stopColor="#FB7185" />
           <stop offset="100%" stopColor="#BE123C" />
         </radialGradient>
-        <radialGradient id="heart-gold" cx="35%" cy="30%" r="70%">
+        <radialGradient id="anni-heart-gold" cx="35%" cy="30%" r="70%">
           <stop offset="0%" stopColor="#FEF08A" />
           <stop offset="40%" stopColor="#F59E0B" />
           <stop offset="100%" stopColor="#B45309" />
@@ -181,19 +182,19 @@ function AnniversaryHeartsGraphic({ className = "w-14 h-16" }: { className?: str
 
       {/* Left Pink Heart */}
       <g>
-        <path d="M34 44 C20 28, 12 46, 34 64 C56 46, 48 28, 34 44 Z" fill="url(#heart-pink)" />
+        <path d="M34 44 C20 28, 12 46, 34 64 C56 46, 48 28, 34 44 Z" fill="url(#anni-heart-pink)" />
         <ellipse cx="27" cy="38" rx="2.5" ry="5" fill="white" opacity="0.5" transform="rotate(-25 27 38)" />
       </g>
 
       {/* Right Gold Heart */}
       <g>
-        <path d="M66 44 C52 28, 44 46, 66 64 C88 46, 80 28, 66 44 Z" fill="url(#heart-gold)" />
+        <path d="M66 44 C52 28, 44 46, 66 64 C88 46, 80 28, 66 44 Z" fill="url(#anni-heart-gold)" />
         <ellipse cx="59" cy="38" rx="2.5" ry="5" fill="white" opacity="0.5" transform="rotate(-25 59 38)" />
       </g>
 
       {/* Center Big Heart */}
       <g>
-        <path d="M50 24 C32 4, 18 28, 50 56 C82 28, 68 4, 50 24 Z" fill="url(#heart-red)" />
+        <path d="M50 24 C32 4, 18 28, 50 56 C82 28, 68 4, 50 24 Z" fill="url(#anni-heart-red)" />
         <ellipse cx="40" cy="18" rx="3.5" ry="7" fill="white" opacity="0.65" transform="rotate(-25 40 18)" />
       </g>
 
@@ -211,6 +212,11 @@ export default function BirthdayAnniversarySection() {
   const [activeTab, setActiveTab] = useState<TabFilter>("today");
   const [searchQuery, setSearchQuery] = useState("");
   const [isRefreshing, setIsRefreshing] = useState(false);
+
+  // Carousel ref & scroll arrow states
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
 
   const fetchCelebrations = async (showLoader = false) => {
     if (showLoader) setIsRefreshing(true);
@@ -290,6 +296,49 @@ export default function BirthdayAnniversarySection() {
     return list;
   }, [todayList, tomorrowList, birthdayList, anniversaryList, activeTab, searchQuery]);
 
+  // Update carousel scroll button visibility
+  const updateScrollButtons = useCallback(() => {
+    const el = carouselRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 8);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 8);
+  }, []);
+
+  useEffect(() => {
+    const el = carouselRef.current;
+    if (!el) return;
+
+    const timer = setTimeout(() => {
+      updateScrollButtons();
+    }, 150);
+
+    el.addEventListener("scroll", updateScrollButtons, { passive: true });
+    window.addEventListener("resize", updateScrollButtons);
+
+    return () => {
+      clearTimeout(timer);
+      el.removeEventListener("scroll", updateScrollButtons);
+      window.removeEventListener("resize", updateScrollButtons);
+    };
+  }, [filteredCelebrations, updateScrollButtons]);
+
+  // Reset scroll to start when tab or search changes
+  useEffect(() => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollTo({ left: 0, behavior: "smooth" });
+    }
+  }, [activeTab, searchQuery]);
+
+  // Smooth scroll handler for carousel buttons
+  const handleScroll = (direction: "left" | "right") => {
+    const el = carouselRef.current;
+    if (!el) return;
+    const firstCard = el.querySelector("article");
+    const cardWidth = firstCard ? firstCard.clientWidth + 24 : el.clientWidth * 0.8;
+    const scrollAmount = direction === "left" ? -cardWidth : cardWidth;
+    el.scrollBy({ left: scrollAmount, behavior: "smooth" });
+  };
+
   return (
     <section
       id="celebrations"
@@ -302,7 +351,7 @@ export default function BirthdayAnniversarySection() {
 
       <div className="container-page relative z-10">
         {/* ============================================================== */}
-        {/* 1. RED BOX AREA: MAIN TITLE & CHURCH GREETING SUBTITLE        */}
+        {/* 1. MAIN TITLE & CHURCH GREETING SUBTITLE                       */}
         {/* ============================================================== */}
         <div className="text-center max-w-4xl mx-auto px-4">
           {/* Festive Pill Badge */}
@@ -329,10 +378,10 @@ export default function BirthdayAnniversarySection() {
         </div>
 
         {/* ============================================================== */}
-        {/* 2. BLACK BOX AREA: TODAY & TOMORROW LIST WITH BALLOONS/HEARTS */}
+        {/* 2. HORIZONTAL SCROLLING CAROUSEL SECTION                       */}
         {/* ============================================================== */}
         <div className="mt-10 max-w-6xl mx-auto">
-          {/* Controls Bar: Only Today, Tomorrow, Birthdays, Anniversaries (All removed) */}
+          {/* Controls Bar: Today, Tomorrow, Birthdays, Anniversaries Tabs & Search */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             {/* Filter Tabs */}
             <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 bg-white/90 rounded-2xl border border-amber-200 shadow-sm w-full sm:w-auto">
@@ -438,14 +487,15 @@ export default function BirthdayAnniversarySection() {
             </div>
           </div>
 
-          {/* Celebrations Grid */}
+          {/* Celebrations Carousel / States */}
           <div className="mt-8">
             {loading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              /* Skeleton Loader in Horizontal Row */
+              <div className="flex flex-nowrap items-stretch gap-6 overflow-hidden py-4 px-1">
                 {[1, 2, 3].map((i) => (
                   <div
                     key={i}
-                    className="rounded-3xl border-2 border-amber-200 bg-white p-6 shadow-md animate-pulse space-y-4"
+                    className="flex-none w-[85%] sm:w-[340px] md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] rounded-3xl border-2 border-amber-200 bg-white p-6 shadow-md animate-pulse space-y-4"
                   >
                     <div className="h-16 bg-amber-100 rounded-2xl w-full" />
                     <div className="h-6 bg-slate-200 rounded w-3/4 mx-auto" />
@@ -455,6 +505,7 @@ export default function BirthdayAnniversarySection() {
                 ))}
               </div>
             ) : filteredCelebrations.length === 0 ? (
+              /* Empty State */
               <div className="text-center py-16 px-4 rounded-3xl border-2 border-dashed border-amber-300 bg-white/80 max-w-xl mx-auto shadow-sm">
                 <Gift className="h-14 w-14 text-amber-500 mx-auto opacity-80 mb-3 animate-bounce" />
                 <h3 className="text-lg sm:text-xl font-bold text-navy-950">
@@ -495,24 +546,37 @@ export default function BirthdayAnniversarySection() {
                 )}
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredCelebrations.map((item, idx) => {
-                  const isBday = item.type === "birthday";
-                  const isToday = item.isToday;
-                  const scripture = getBibleVerse(item.id, item.name, item.type);
+              /* HORIZONTAL SCROLLING CAROUSEL TRACK */
+              <div className="relative group/carousel">
+                {/* Left Navigation Arrow (Desktop) */}
+                {canScrollLeft && (
+                  <button
+                    type="button"
+                    onClick={() => handleScroll("left")}
+                    aria-label="Previous celebrations"
+                    className="hidden md:flex absolute -left-3 lg:-left-5 top-1/2 -translate-y-1/2 z-20 h-11 w-11 items-center justify-center rounded-full bg-white/95 text-navy-950 shadow-xl border border-amber-200 hover:bg-amber-500 hover:text-white hover:scale-105 transition-all active:scale-95"
+                  >
+                    <ChevronLeft className="h-6 w-6" />
+                  </button>
+                )}
 
-                  return (
-                    <ScrollReveal
-                      key={`${item.id}-${item.type}-${item.nextDate}`}
-                      direction="up"
-                      delay={Math.min(idx * 50, 350)}
-                      className="h-full"
-                    >
-                      {/* ==================================================== */}
-                      {/* GREETING CARD TEMPLATE (Balloons for Bday, Hearts for Anni) */}
-                      {/* ==================================================== */}
+                {/* Horizontal Scrollable Container */}
+                <div
+                  ref={carouselRef}
+                  className="flex flex-nowrap items-stretch gap-6 overflow-x-auto overflow-y-hidden py-4 px-1 scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+                  style={{
+                    WebkitOverflowScrolling: "touch",
+                  }}
+                >
+                  {filteredCelebrations.map((item) => {
+                    const isBday = item.type === "birthday";
+                    const isToday = item.isToday;
+                    const scripture = getBibleVerse(item.id, item.name, item.type);
+
+                    return (
                       <article
-                        className={`relative flex flex-col justify-between h-full rounded-3xl overflow-hidden transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl ${
+                        key={`${item.id}-${item.type}-${item.nextDate}`}
+                        className={`flex-none snap-start w-[85%] sm:w-[340px] md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] relative flex flex-col justify-between rounded-3xl overflow-hidden transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-2xl ${
                           isToday
                             ? "border-2 border-amber-400 ring-4 ring-amber-300/40 shadow-glow-gold"
                             : isBday
@@ -649,9 +713,28 @@ export default function BirthdayAnniversarySection() {
                           </div>
                         </div>
                       </article>
-                    </ScrollReveal>
-                  );
-                })}
+                    );
+                  })}
+                </div>
+
+                {/* Right Navigation Arrow (Desktop) */}
+                {canScrollRight && (
+                  <button
+                    type="button"
+                    onClick={() => handleScroll("right")}
+                    aria-label="Next celebrations"
+                    className="hidden md:flex absolute -right-3 lg:-right-5 top-1/2 -translate-y-1/2 z-20 h-11 w-11 items-center justify-center rounded-full bg-white/95 text-navy-950 shadow-xl border border-amber-200 hover:bg-amber-500 hover:text-white hover:scale-105 transition-all active:scale-95"
+                  >
+                    <ChevronRight className="h-6 w-6" />
+                  </button>
+                )}
+              </div>
+            )}
+
+            {/* Mobile Swipe Hint */}
+            {!loading && filteredCelebrations.length > 1 && (
+              <div className="flex md:hidden items-center justify-center gap-1.5 mt-3 text-xs text-amber-900/60 font-semibold">
+                <span>← பக்கவாட்டில் நகர்த்தவும் (Swipe to view more) →</span>
               </div>
             )}
           </div>
