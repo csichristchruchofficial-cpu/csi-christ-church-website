@@ -100,11 +100,11 @@ export default function Header() {
           {/* Logo & Church Name */}
           <Link
             href="/"
-            className="group flex items-center gap-2.5 sm:gap-3.5 min-w-0"
+            className="group flex items-center gap-2 sm:gap-3.5 min-w-0 flex-1"
           >
             <div
               className={`relative shrink-0 items-center justify-center overflow-hidden rounded-full bg-white p-0.5 shadow-sm ring-2 ring-gold/60 transition-all duration-300 group-hover:ring-crimson ${
-                isScrolled ? "h-10 w-10 sm:h-12 sm:w-12" : "h-11 w-11 sm:h-14 sm:w-14"
+                isScrolled ? "h-9 w-9 sm:h-12 sm:w-12" : "h-10 w-10 sm:h-14 sm:w-14"
               }`}
             >
               <Image
@@ -119,7 +119,7 @@ export default function Header() {
             <div className="flex flex-col min-w-0">
               <span
                 className={`font-black text-navy-900 tracking-tight leading-tight transition-all duration-300 group-hover:text-royal truncate ${
-                  isScrolled ? "text-sm sm:text-base md:text-lg" : "text-base sm:text-lg md:text-xl"
+                  isScrolled ? "text-xs sm:text-base md:text-lg" : "text-sm sm:text-lg md:text-xl"
                 }`}
               >
                 <span className="church-name-ta-source">{churchInfo.name}</span>
@@ -127,7 +127,7 @@ export default function Header() {
                   {churchInfo.nameEnglish}
                 </span>
               </span>
-              <span className="text-[10px] sm:text-xs font-black tracking-wider text-crimson uppercase truncate notranslate" translate="no">
+              <span className="text-[9px] sm:text-xs font-black tracking-wider text-crimson uppercase truncate notranslate" translate="no">
                 CSI Christ Church Kallidai
               </span>
             </div>
@@ -147,7 +147,7 @@ export default function Header() {
             {/* JOIN US Button */}
             <Link
               href="/contact"
-              className="btn-primary !py-1.5 !px-3 sm:!py-2.5 sm:!px-6 !text-xs sm:!text-sm font-bold shadow-sm hover:shadow-glow-gold/30 transition-all shrink-0"
+              className="btn-primary !py-1.5 !px-2.5 sm:!py-2 sm:!px-5 !text-[11px] sm:!text-sm font-bold shadow-sm hover:shadow-glow-gold/30 transition-all shrink-0"
             >
               <span className="church-name-ta-source">இணையுங்கள்</span>
               <span className="church-name-en-override notranslate" translate="no">Join Us</span>

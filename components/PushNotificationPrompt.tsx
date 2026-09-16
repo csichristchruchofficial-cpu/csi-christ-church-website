@@ -147,20 +147,20 @@ export default function PushNotificationPrompt({
     }
   }
 
-  // Variant: Header (used in main header right controls across mobile & desktop)
+  // Variant: Header (short, compact, sleek design for mobile and desktop header)
   if (variant === "header") {
     return (
-      <div className="relative inline-flex items-center">
+      <div className="relative inline-flex items-center shrink-0">
         <button
           type="button"
           onClick={isSubscribed ? handleUnsubscribe : handleSubscribe}
           disabled={isLoading}
-          className={`relative flex items-center gap-1.5 rounded-2xl px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs font-black transition-all shadow-md active:scale-95 shrink-0 ${
+          className={`relative flex items-center gap-1 sm:gap-1.5 rounded-xl px-2 py-1.5 sm:px-3 sm:py-2 text-[11px] sm:text-xs font-black transition-all shadow-sm active:scale-95 shrink-0 ${
             isSubscribed
-              ? "bg-emerald-950 text-emerald-300 border-2 border-emerald-400 ring-2 ring-emerald-400/30 hover:bg-emerald-900 shadow-emerald-500/20"
+              ? "bg-emerald-950 text-emerald-300 border border-emerald-400 hover:bg-emerald-900"
               : permission === "denied"
-              ? "bg-slate-800 text-slate-400 border-2 border-slate-600 hover:bg-slate-700 shadow-sm"
-              : "bg-navy-950 text-gold-light border-2 border-gold ring-2 ring-gold/40 hover:bg-royal hover:text-white shadow-gold/25"
+              ? "bg-slate-800 text-slate-400 border border-slate-600 hover:bg-slate-700"
+              : "bg-navy-950 text-gold-light border border-gold/90 hover:bg-royal hover:text-white"
           } ${className}`}
           title={
             isSubscribed
@@ -171,43 +171,40 @@ export default function PushNotificationPrompt({
           }
         >
           {isLoading ? (
-            <Loader2 className="h-4 w-4 animate-spin text-gold shrink-0" />
+            <Loader2 className="h-3.5 w-3.5 animate-spin text-gold shrink-0" />
           ) : isSubscribed ? (
-            <BellRing className="h-4 w-4 text-emerald-400 shrink-0 animate-pulse" />
+            <BellRing className="h-3.5 w-3.5 text-emerald-400 shrink-0 animate-pulse" />
           ) : permission === "denied" ? (
-            <BellOff className="h-4 w-4 text-slate-400 shrink-0" />
+            <BellOff className="h-3.5 w-3.5 text-slate-400 shrink-0" />
           ) : (
-            <Bell className="h-4 w-4 text-gold shrink-0 animate-bounce" />
+            <div className="relative shrink-0">
+              <Bell className="h-3.5 w-3.5 text-gold animate-bounce" />
+              {mounted && (
+                <span className="absolute -top-0.5 -right-0.5 h-1.5 w-1.5 rounded-full bg-gold" />
+              )}
+            </div>
           )}
 
-          <span className="tracking-wide whitespace-nowrap">
+          <span className="tracking-tight whitespace-nowrap">
             {isLoading ? (
-              "இணைக்கிறது..."
+              "..."
             ) : isSubscribed ? (
               <>
-                <span className="church-name-ta-source">அறிவிப்புகள் On</span>
-                <span className="church-name-en-override notranslate" translate="no">Alerts On</span>
+                <span className="church-name-ta-source">On</span>
+                <span className="church-name-en-override notranslate" translate="no">On</span>
               </>
             ) : permission === "denied" ? (
               <>
-                <span className="church-name-ta-source">முடக்கப்பட்டது</span>
-                <span className="church-name-en-override notranslate" translate="no">Blocked</span>
+                <span className="church-name-ta-source">Off</span>
+                <span className="church-name-en-override notranslate" translate="no">Off</span>
               </>
             ) : (
               <>
-                <span className="church-name-ta-source">அறிவிப்பு பெற</span>
-                <span className="church-name-en-override notranslate" translate="no">Get Alerts</span>
+                <span className="church-name-ta-source">அறிவிப்பு</span>
+                <span className="church-name-en-override notranslate" translate="no">Alerts</span>
               </>
             )}
           </span>
-
-          {/* Live indicator dot when not subscribed */}
-          {mounted && !isSubscribed && permission !== "denied" && !isLoading && (
-            <span className="relative flex h-2 w-2 ml-0.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-gold"></span>
-            </span>
-          )}
         </button>
 
         {/* Floating Toast Notification Feedback */}
@@ -222,7 +219,7 @@ export default function PushNotificationPrompt({
   }
 
   if (!isSupported) {
-    return null; // Gracefully hide pill/button on incompatible browsers
+    return null; // Gracefully hide on incompatible browsers for pill/button
   }
 
   // Variant: Button (used in quick bar or actions)
